@@ -280,14 +280,155 @@ export default function DemoPatientChatPage() {
   const [inputValue, setInputValue] = useState('')
   const [selectedDay, setSelectedDay] = useState<typeof DEMO_DATA.threadDays[0] | null>(null)
   const [showProfileDropdown, setShowProfileDropdown] = useState(false)
-  const [filterType, setFilterType] = useState<'missed' | 'completed' | null>(null) // null, 'missed', or 'completed'
+  const [filterType, setFilterType] = useState<'missed' | 'completed' | null>(null)
   const [currentDayTasks, setCurrentDayTasks] = useState(DEMO_DATA.currentDayTasks)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  
+  // AI Chat state
+  const [messages, setMessages] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [questionnaireActive, setQuestionnaireActive] = useState(false)
+  const [currentQuestion, setCurrentQuestion] = useState<any>(null)
+  const [questionIndex, setQuestionIndex] = useState(0)
+  const [responses, setResponses] = useState<any>({})
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return
-    // Handle message send
+  // Initialize chat based on mode
+  useEffect(() => {
+    if (mode === 'pre-op' && messages.length === 0) {
+      // Start pre-op questionnaire automatically
+      initializePreOpQuestionnaire()
+    } else if (mode === 'post-op' && messages.length === 0) {
+      // Use existing static messages for post-op
+      setMessages(DEMO_DATA.messages)
+    }
+  }, [mode])
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, selectedDay])
+
+  const initializePreOpQuestionnaire = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: '',
+          patientName: DEMO_DATA.patient.name,
+          phase: 'pre-op',
+          questionIndex: 0,
+          responses: {}
+        })
+      })
+      
+      const data = await response.json()
+      
+      if (data.type === 'questionnaire_start') {
+        setMessages([{
+          id: 1,
+          type: 'message',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          content: data.message,
+          isAI: true
+        }])
+        setQuestionnaireActive(true)
+        setCurrentQuestion(data.nextQuestion)
+        setQuestionIndex(0)
+        
+        // Add the first question as a separate message
+        setTimeout(() => {
+          setMessages(prev => [...prev, {
+            id: 2,
+            type: 'question',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            content: data.nextQuestion.question,
+            question: data.nextQuestion,
+            isAI: true
+          }])
+        }, 1000)
+      }
+    } catch (error) {
+      console.error('Failed to initialize questionnaire:', error)
+    }
+    setIsLoading(false)
+  }
+
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isLoading) return
+    
+    const userMessage = {
+      id: messages.length + 1,
+      type: 'user_message',
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      content: inputValue,
+      isAI: false
+    }
+    
+    setMessages(prev => [...prev, userMessage])
+    const currentInput = inputValue
     setInputValue('')
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: currentInput,
+          patientName: DEMO_DATA.patient.name,
+          phase: mode,
+          questionIndex: questionnaireActive ? questionIndex + 1 : -1,
+          responses: responses
+        })
+      })
+      
+      const data = await response.json()
+      
+      // Add AI response
+      const aiMessage = {
+        id: messages.length + 2,
+        type: data.type === 'questionnaire_question' ? 'question' : 'message',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        content: data.message,
+        question: data.question,
+        isAI: true
+      }
+      
+      setMessages(prev => [...prev, aiMessage])
+      
+      // Handle questionnaire flow
+      if (data.type === 'questionnaire_question') {
+        setCurrentQuestion(data.question)
+        setQuestionIndex(data.questionIndex)
+        setResponses(data.responses)
+      } else if (data.type === 'questionnaire_complete') {
+        setQuestionnaireActive(false)
+        setCurrentQuestion(null)
+        console.log('Pre-op assessment completed:', data.responses)
+      }
+      
+    } catch (error) {
+      console.error('Failed to send message:', error)
+      setMessages(prev => [...prev, {
+        id: messages.length + 2,
+        type: 'error',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        content: 'Sorry, I encountered an error. Please try again.',
+        isAI: true
+      }])
+    }
+    
+    setIsLoading(false)
+  }
+
+  const handleQuestionOption = async (option: string) => {
+    setInputValue(option)
+    // Auto-submit the selected option
+    setTimeout(() => {
+      handleSendMessage()
+    }, 100)
   }
 
   const clearFilter = () => {
@@ -306,8 +447,10 @@ export default function DemoPatientChatPage() {
     DEMO_DATA.threadDays.filter(day => day.status === filterType) : 
     DEMO_DATA.threadDays
 
-  // Get messages to display - either from selected day or default messages
-  const displayMessages = selectedDay ? selectedDay.messages : DEMO_DATA.messages
+  // Get messages to display - either from selected day, AI messages, or default messages
+  const displayMessages = selectedDay ? selectedDay.messages :
+    (mode === 'pre-op' && messages.length > 0) ? messages :
+    DEMO_DATA.messages
 
   return (
     <div className="h-screen bg-gray-50 flex">
@@ -489,21 +632,61 @@ export default function DemoPatientChatPage() {
               </div>
             )}
             {displayMessages.map((message: any) => (
-              <div key={message.id} className="flex justify-start">
+              <div key={message.id} className={`flex ${message.isAI === false ? 'justify-end' : 'justify-start'}`}>
                 <div className="max-w-lg w-full">
                   {/* Message Header */}
                   <div className="flex items-center space-x-2 mb-2">
-                    <span className="text-sm font-medium text-gray-900">
-                      {message.type === 'message' ? 'Message Task' : 
-                       message.type === 'video' ? 'Video Task' : 'Form Task'} {message.timestamp}
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      {message.isAI !== false && (
+                        <Bot className="h-4 w-4 text-blue-600" />
+                      )}
+                      {message.isAI === false && (
+                        <User className="h-4 w-4 text-gray-600" />
+                      )}
+                      <span className="text-sm font-medium text-gray-900">
+                        {message.isAI === false ? 'You' :
+                         message.type === 'question' ? 'Pre-Op Assessment' :
+                         message.type === 'message' ? 'Recovery Assistant' :
+                         message.type === 'video' ? 'Video Task' : 'Form Task'}
+                        {message.timestamp}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Message Content */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
-                    <p className="text-sm text-gray-900 mb-3">
+                  <div className={`rounded-lg p-4 shadow-sm border ${
+                    message.isAI === false
+                      ? 'bg-blue-600 text-white border-blue-600 ml-8'
+                      : 'bg-white border-gray-100'
+                  }`}>
+                    <p className={`text-sm mb-3 ${
+                      message.isAI === false ? 'text-white' : 'text-gray-900'
+                    }`}>
                       {message.content}
                     </p>
+
+                    {/* Question Options for AI Messages */}
+                    {message.question && message.question.options && (
+                      <div className="mt-4 space-y-2">
+                        {message.question.options.map((option: string, index: number) => (
+                          <button
+                            key={index}
+                            onClick={() => handleQuestionOption(option)}
+                            disabled={isLoading}
+                            className="w-full text-left p-3 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg text-sm text-blue-900 transition-colors disabled:opacity-50"
+                          >
+                            {option}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Text Input for Open Questions */}
+                    {message.question && !message.question.options && questionnaireActive && currentQuestion === message.question && (
+                      <div className="mt-4">
+                        <div className="text-xs text-gray-600 mb-2">Please type your response above and press Enter</div>
+                      </div>
+                    )}
 
                     {/* Video Content */}
                     {message.type === 'video' && message.video && (
@@ -596,6 +779,29 @@ export default function DemoPatientChatPage() {
                 </div>
               </div>
             ))}
+            
+            {/* Loading indicator */}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="max-w-lg w-full">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Bot className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm font-medium text-gray-900">Recovery Assistant is typing...</span>
+                  </div>
+                  <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+                    <div className="flex items-center space-x-2">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
+                      <span className="text-sm text-gray-500">Processing your response...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div ref={messagesEndRef} />
           </div>
         </div>

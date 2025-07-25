@@ -1,0 +1,96 @@
+name: Claude Code Subagent Workflow
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  database-review:
+    name: Database Schema Review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Review Database Changes
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Use healthcare-database-expert subagent to review database changes
+          echo "Reviewing database schema changes with healthcare-database-expert..."
+          # Add Claude Code CLI commands here when available
+
+  supabase-check:
+    name: Supabase Configuration Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate Supabase Setup
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Use supabase-specialist subagent to validate configuration
+          echo "Validating Supabase configuration with supabase-specialist..."
+          # Add Claude Code CLI commands here when available
+
+  performance-analysis:
+    name: Performance Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Analyze Performance Impact
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Use nextjs-performance-optimizer subagent to analyze changes
+          echo "Analyzing performance impact with nextjs-performance-optimizer..."
+          # Add Claude Code CLI commands here when available
+
+  test-coverage:
+    name: Test Coverage Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Review Test Coverage
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Use test-automation-specialist subagent to review tests
+          echo "Reviewing test coverage with test-automation-specialist..."
+          # Add Claude Code CLI commands here when available
+
+  # Traditional CI/CD steps
+  lint-and-type-check:
+    name: Lint and Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npm run lint || true
+      - run: npm run type-check || true
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}

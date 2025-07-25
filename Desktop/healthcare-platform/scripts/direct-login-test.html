@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Direct Login Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Direct Supabase Login Test</h1>
+    <button onclick="testLogin()">Login as Lauren</button>
+    <div id="status" style="margin-top: 20px; font-family: monospace; background: #f5f5f5; padding: 10px;"></div>
+
+    <script>
+        const supabaseUrl = 'https://slhdxlhnwujvqkwdgfko.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNsaGR4bGhud3VqdnFrd2RnZmtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyOTYzNzYsImV4cCI6MjA2Nzg3MjM3Nn0.IPbwTsIrj9hoCUwprXEFFOp3cczbc2NqQvL9e6BnpBQ';
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        async function testLogin() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = 'Starting login test...\n';
+            
+            try {
+                statusDiv.innerHTML += 'Calling signInWithPassword...\n';
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: 'lauren@email.com',
+                    password: 'Yonder0901!'
+                });
+                
+                if (error) {
+                    statusDiv.innerHTML += `❌ Login failed: ${error.message}\n`;
+                } else if (data.user) {
+                    statusDiv.innerHTML += `✅ Login successful!\nUser ID: ${data.user.id}\n`;
+                    statusDiv.innerHTML += 'Fetching profile...\n';
+                    
+                    const { data: profile, error: profileError } = await supabase
+                        .from('profiles')
+                        .select('*')
+                        .eq('id', data.user.id)
+                        .single();
+                    
+                    if (profile) {
+                        statusDiv.innerHTML += `✅ Profile found: ${profile.first_name} ${profile.last_name} (${profile.role})\n`;
+                        statusDiv.innerHTML += 'Redirecting to provider page...\n';
+                        
+                        // Redirect to the actual app
+                        setTimeout(() => {
+                            window.location.href = 'http://localhost:3000/provider/patients';
+                        }, 2000);
+                    } else {
+                        statusDiv.innerHTML += `❌ Profile error: ${profileError?.message}\n`;
+                    }
+                }
+            } catch (err) {
+                statusDiv.innerHTML += `❌ Unexpected error: ${err}\n`;
+            }
+        }
+    </script>
+</body>
+</html>

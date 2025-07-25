@@ -1,0 +1,253 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 98%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 98%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 98%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Typography improvements for construction industry */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+  
+  /* Touch-friendly improvements */
+  button, [role="button"] {
+    @apply min-h-touch min-w-touch;
+  }
+  
+  input, select, textarea {
+    @apply min-h-input;
+  }
+}
+
+@layer components {
+  /* Container variants for different max widths */
+  .container-capitalsure {
+    @apply container max-w-capitalsure;
+  }
+  
+  .container-standard {
+    @apply container max-w-standard;
+  }
+  
+  /* Grid system utilities */
+  .grid-16 {
+    @apply grid grid-cols-16;
+  }
+  
+  .grid-responsive {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+  
+  /* Button variants */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-6 py-2 min-w-button;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-primary bg-background text-primary hover:bg-primary/5 h-11 px-6 py-2 min-w-button;
+  }
+  
+  .btn-tertiary {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary hover:bg-primary/5 h-10 px-3 py-2;
+  }
+  
+  .btn-icon {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary hover:bg-primary/5 h-10 w-10;
+  }
+  
+  /* Card variants */
+  .card-base {
+    @apply rounded-lg border bg-card text-card-foreground shadow-card;
+  }
+  
+  .card-interactive {
+    @apply card-base transition-shadow hover:shadow-card-hover cursor-pointer;
+  }
+  
+  .card-content {
+    @apply p-6;
+  }
+  
+  .card-header {
+    @apply flex flex-col space-y-1.5 p-6 pb-3;
+  }
+  
+  .card-footer {
+    @apply flex items-center p-6 pt-3;
+  }
+  
+  /* Form elements */
+  .input-base {
+    @apply flex h-input w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  
+  .textarea-base {
+    @apply flex min-h-[88px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  
+  .select-base {
+    @apply flex h-input w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  
+  /* Navigation components */
+  .nav-sidebar {
+    @apply flex h-full w-64 flex-col border-r bg-background;
+  }
+  
+  .nav-sidebar-collapsed {
+    @apply w-16;
+  }
+  
+  .nav-item {
+    @apply flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground;
+  }
+  
+  .nav-item-active {
+    @apply bg-accent text-accent-foreground;
+  }
+  
+  /* Status indicators */
+  .status-success {
+    @apply inline-flex items-center rounded-full bg-success/10 px-2.5 py-0.5 text-xs font-medium text-success;
+  }
+  
+  .status-warning {
+    @apply inline-flex items-center rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-medium text-warning;
+  }
+  
+  .status-error {
+    @apply inline-flex items-center rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-medium text-destructive;
+  }
+  
+  .status-info {
+    @apply inline-flex items-center rounded-full bg-info/10 px-2.5 py-0.5 text-xs font-medium text-info;
+  }
+  
+  /* Construction-specific utilities */
+  .safety-highlight {
+    @apply border-l-4 border-warning bg-warning/5 p-4;
+  }
+  
+  .project-card {
+    @apply card-interactive p-6 space-y-4;
+  }
+  
+  .progress-bar {
+    @apply h-2 w-full overflow-hidden rounded-full bg-secondary;
+  }
+  
+  .progress-fill {
+    @apply h-full bg-primary transition-all duration-300 ease-in-out;
+  }
+}
+
+@layer utilities {
+  /* Spacing utilities for construction layouts */
+  .space-construction {
+    @apply space-y-6;
+  }
+  
+  .gap-construction {
+    @apply gap-6;
+  }
+  
+  /* Touch-friendly utilities */
+  .touch-target {
+    @apply min-h-touch min-w-touch;
+  }
+  
+  /* Responsive text utilities */
+  .text-responsive-sm {
+    @apply text-sm md:text-base;
+  }
+  
+  .text-responsive-base {
+    @apply text-base md:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-lg md:text-xl;
+  }
+  
+  /* Construction industry specific utilities */
+  .text-construction-primary {
+    @apply text-primary font-semibold;
+  }
+  
+  .bg-construction-light {
+    @apply bg-secondary/50;
+  }
+  
+  .border-construction {
+    @apply border-secondary-300;
+  }
+  
+  /* Animation utilities */
+  .animate-fade-in {
+    @apply animate-fade-in;
+  }
+  
+  .animate-slide-in {
+    @apply animate-slide-in;
+  }
+  
+  /* Focus utilities for accessibility */
+  .focus-construction {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
+}
+

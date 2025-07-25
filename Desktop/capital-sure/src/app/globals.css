@@ -1,0 +1,641 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Modern Professional Design System */
+    --background: 0 0% 98%; /* Light gray background */
+    --foreground: 222 47% 11%; /* Dark blue-gray text */
+    --card: 0 0% 100%; /* Pure white cards */
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Primary: Professional Blue */
+    --primary: 217 91% 60%; /* #3B82F6 */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 217 91% 55%;
+
+    /* Secondary: Light Gray */
+    --secondary: 210 40% 96%; /* #F1F5F9 */
+    --secondary-foreground: 222 47% 11%;
+    --secondary-hover: 210 40% 93%;
+
+    /* Muted: Subtle Gray */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%; /* #64748B */
+
+    /* Accent: Light Blue */
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --accent-hover: 210 40% 93%;
+
+    /* Destructive: Red */
+    --destructive: 0 84% 60%; /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+    --destructive-hover: 0 84% 55%;
+
+    /* Borders & Inputs */
+    --border: 214 32% 91%; /* #E2E8F0 */
+    --input: 0 0% 100%;
+    --input-border: 214 32% 91%;
+    --ring: 217 91% 60%;
+
+    /* Status Colors */
+    --success: 142 71% 45%; /* #22C55E */
+    --success-foreground: 0 0% 100%;
+    --success-hover: 142 71% 40%;
+
+    --warning: 38 92% 50%; /* #F97316 */
+    --warning-foreground: 0 0% 100%;
+    --warning-hover: 38 92% 45%;
+
+    --info: 199 89% 48%; /* #0EA5E9 */
+    --info-foreground: 0 0% 100%;
+    --info-hover: 199 89% 43%;
+
+    /* Shadows & Glass Effects */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+    /* Typography Scale */
+    --font-scale-sm: 0.875rem; /* 14px */
+    --font-scale-base: 1rem; /* 16px */
+    --font-scale-lg: 1.125rem; /* 18px */
+    --font-scale-xl: 1.25rem; /* 20px */
+    --font-scale-2xl: 1.5rem; /* 24px */
+    --font-scale-3xl: 1.875rem; /* 30px */
+    --font-scale-4xl: 2.25rem; /* 36px */
+    --font-scale-5xl: 3rem; /* 48px */
+
+    /* Border Radius */
+    --radius: 8px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    /* Grid System */
+    --container-max-width: 1537px; /* Primary grid max width as per design system */
+    --container-max-width-secondary: 1200px; /* Secondary grid max width */
+    --container-padding: 2rem;
+    --container-padding-mobile: 1rem;
+    --container-padding-tablet: 1.5rem;
+    --grid-columns: 16; /* Primary grid columns */
+    --grid-columns-secondary: 12; /* Secondary grid columns */
+    --grid-gap: 1.5rem; /* 24px */
+    --grid-gap-mobile: 0.5rem; /* 8px */
+    --grid-gap-tablet: 1rem; /* 16px */
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 221 83% 53%;
+
+    /* Dark mode glass */
+    --glass-bg: rgba(0, 0, 0, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-inter), "Inter", system-ui, -apple-system,
+      sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Apple-style blur effects */
+  .glass {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+
+  /* Smooth animations */
+  * {
+    transition-property: color, background-color, border-color,
+      text-decoration-color, fill, stroke, opacity, box-shadow, transform,
+      filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* Focus styles */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  /* Construction-Optimized Typography Scale */
+  .text-display {
+    font-size: var(--font-scale-5xl);
+    @apply font-bold tracking-tight leading-tight;
+  }
+
+  .text-headline {
+    font-size: var(--font-scale-3xl);
+    @apply font-semibold tracking-tight leading-tight;
+  }
+
+  .text-title {
+    font-size: var(--font-scale-2xl);
+    @apply font-semibold leading-snug;
+  }
+
+  .text-subtitle {
+    font-size: var(--font-scale-xl);
+    @apply font-medium leading-relaxed;
+  }
+
+  .text-body {
+    font-size: var(--font-scale-base);
+    @apply leading-relaxed;
+  }
+
+  .text-body-large {
+    font-size: var(--font-scale-lg);
+    @apply leading-relaxed;
+  }
+
+  .text-caption {
+    font-size: var(--font-scale-sm);
+    @apply text-muted-foreground leading-relaxed;
+  }
+
+  .text-footnote {
+    @apply text-xs text-muted-foreground leading-normal;
+  }
+
+  /* Mobile Typography Adjustments */
+  @media (max-width: 768px) {
+    .text-display {
+      font-size: 2rem; /* 32px */
+    }
+    .text-headline {
+      font-size: 1.75rem; /* 28px */
+    }
+    .text-title {
+      font-size: 1.5rem; /* 24px */
+    }
+    .text-subtitle {
+      font-size: 1.25rem; /* 20px */
+    }
+  }
+
+  /* Layout utilities */
+
+  .safe-area {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Apple-style hover effects */
+  .hover-lift {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Construction-specific utilities */
+  .status-active {
+    @apply bg-green-100 text-green-800 border-green-200;
+  }
+
+  .status-pending {
+    @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+  }
+
+  .status-overdue {
+    @apply bg-red-100 text-red-800 border-red-200;
+  }
+
+  .status-completed {
+    @apply bg-blue-100 text-blue-800 border-blue-200;
+  }
+
+  /* Progress indicators */
+  .progress-ring {
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+
+  /* Mobile Touch Optimizations */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    position: relative;
+  }
+
+  /* Preferred touch targets for construction gloves */
+  .touch-target-large {
+    min-height: 56px;
+    min-width: 56px;
+  }
+
+  /* Container System per Design System */
+
+  /* Primary Container - 1537px max width */
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 3rem; /* 48px desktop */
+    padding-right: 3rem;
+    max-width: var(--container-max-width);
+  }
+
+  /* Secondary Container - 1200px max width */
+  .container-secondary {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    max-width: var(--container-max-width-secondary);
+  }
+
+  /* Full width container without max-width constraint */
+  .container-fluid {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  /* Legacy support - maps to primary container */
+  .container-construction {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    max-width: var(--container-max-width);
+  }
+
+  /* Responsive padding adjustments */
+  @media (max-width: 1023px) {
+    .container,
+    .container-secondary,
+    .container-fluid,
+    .container-construction {
+      padding-left: 2rem; /* 32px tablet */
+      padding-right: 2rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .container,
+    .container-secondary,
+    .container-fluid,
+    .container-construction {
+      padding-left: 1.5rem; /* 24px mobile */
+      padding-right: 1.5rem;
+    }
+  }
+
+  /* Simplified Grid System - Standard Responsive Approach */
+  
+  /* Default mobile-first grid */
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  /* Grid gap variants */
+  .gap-4 { gap: 1rem; }
+  .gap-6 { gap: 1.5rem; }
+  .gap-8 { gap: 2rem; }
+
+  /* Standard 12-column grid system */
+  .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+  .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+
+  /* Small devices (640px and up) */
+  @media (min-width: 640px) {
+    .sm\:grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .sm\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .sm\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  }
+
+  /* Medium devices (768px and up) */
+  @media (min-width: 768px) {
+    .md\:grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .md\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+    /* Larger touch targets for tablet use with work gloves */
+    button,
+    .btn,
+    .touch-target,
+    [role="button"],
+    input,
+    select,
+    textarea {
+      min-height: 48px;
+      font-size: 1rem;
+    }
+
+    .container,
+    .container-fluid,
+    .container-construction {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  /* Large devices (1024px and up) */
+  @media (min-width: 1024px) {
+    .lg\:grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .lg\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .lg\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  }
+
+  /* Extra large devices (1280px and up) */
+  @media (min-width: 1280px) {
+    .xl\:grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .xl\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .xl\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .xl\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .xl\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .xl\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  }
+
+  /* Mobile specific adjustments */
+  @media (max-width: 767px) {
+    .container,
+    .container-fluid,
+    .container-construction {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Extra large touch targets for mobile field use with gloves */
+    button,
+    .btn,
+    .touch-target,
+    [role="button"],
+    input,
+    select,
+    textarea {
+      min-height: 56px;
+      font-size: 1.125rem;
+      padding: 0.75rem 1rem;
+    }
+
+    /* Optimize for one-handed use */
+    .mobile-bottom-nav {
+      padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+    }
+  }
+
+  /* Grid span utilities */
+  .col-span-1 { grid-column: span 1 / span 1; }
+  .col-span-2 { grid-column: span 2 / span 2; }
+  .col-span-3 { grid-column: span 3 / span 3; }
+  .col-span-4 { grid-column: span 4 / span 4; }
+  .col-span-5 { grid-column: span 5 / span 5; }
+  .col-span-6 { grid-column: span 6 / span 6; }
+  .col-span-7 { grid-column: span 7 / span 7; }
+  .col-span-8 { grid-column: span 8 / span 8; }
+  .col-span-9 { grid-column: span 9 / span 9; }
+  .col-span-10 { grid-column: span 10 / span 10; }
+  .col-span-11 { grid-column: span 11 / span 11; }
+  .col-span-12 { grid-column: span 12 / span 12; }
+  .col-span-full { grid-column: 1 / -1; }
+
+
+  /* High Contrast Support */
+  @media (prefers-contrast: high) {
+    :root {
+      --border: 0 0% 50%;
+      --primary: 217 91% 50%;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Card variants */
+  .card-elevated {
+    @apply bg-card border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow;
+  }
+
+  .card-glass {
+    @apply glass rounded-lg;
+  }
+
+  /* Modern card styles */
+  .construction-card {
+    @apply bg-card border border-border rounded-lg p-6 transition-all hover:shadow-md;
+  }
+
+  /* Equal height cards in grid layouts - Design Rule */
+  .grid-equal-height > * {
+    @apply h-full;
+  }
+  
+  .grid-equal-height .card,
+  .grid-equal-height [class*="card"] {
+    @apply h-full flex flex-col;
+  }
+  
+  .grid-equal-height .card-content {
+    @apply flex-1;
+  }
+
+  /* Button variants */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 focus-ring;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 focus-ring;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground focus-ring;
+  }
+
+  /* Input variants */
+  .input-floating {
+    @apply peer placeholder-transparent focus:outline-none focus:ring-2 focus:ring-primary;
+  }
+
+  .label-floating {
+    @apply absolute left-3 -top-2.5 bg-background px-2 text-sm text-muted-foreground transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-muted-foreground peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-primary;
+  }
+
+  /* Navigation styles */
+  .nav-link {
+    @apply flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors hover:bg-accent hover:text-accent-foreground focus-ring;
+  }
+
+  .nav-link-active {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  /* Status indicators */
+  .indicator {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .indicator-success {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .indicator-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+
+  .indicator-error {
+    @apply bg-red-100 text-red-800;
+  }
+
+  .indicator-info {
+    @apply bg-blue-100 text-blue-800;
+  }
+}
+
+@layer utilities {
+  /* Spacing utilities */
+  .space-y-px > * + * {
+    margin-top: 1px;
+  }
+
+  /* Text utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Fallback for older browsers */
+  @supports not (text-wrap: balance) {
+    .text-balance {
+      word-wrap: break-word;
+    }
+  }
+
+  /* Animation utilities */
+  .animate-in {
+    animation: animate-in 0.3s ease-out;
+  }
+
+  @keyframes animate-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-out {
+    animation: animate-out 0.2s ease-in;
+  }
+
+  @keyframes animate-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Layout utilities */
+  .sidebar-width {
+    width: 280px;
+  }
+
+  .content-width {
+    max-width: calc(100vw - 280px);
+  }
+
+  @media (max-width: 1024px) {
+    .content-width {
+      max-width: 100vw;
+    }
+  }
+}

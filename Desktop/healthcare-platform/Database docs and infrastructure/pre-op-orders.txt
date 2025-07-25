@@ -1,0 +1,41 @@
+TOTAL JOINT SPECIALISTS
+PHYSICIANS PRE-OPERATIVE ORDERS
+
+Patient Name: _____________________________
+DOB: _____________________________________
+
+☑ Indicates automatic order. Check boxes "□" indicated to activate order.
+
+1. Antibiotic Prophylaxis
+   □ H/O MRSA if checked. Give both Ancef and Vancomycin.
+   ☑ Cefazolin (Ancef) 2 grams IV x 1. Begin infusion within 60 minutes prior to surgical incision.
+      ❖ PCN allergy: Give test dose first.
+      ❖ May add vancomycin to cefazolin (Ancef) for history of MRSA
+   
+   If severe allergy to Cephalosporins [i.e. anaphylaxis, pharyngeal swelling, or hives], use vancomycin.
+   
+   ☑ Vancomycin 1 gram (for patients less than or equal to 85 kg) IV over 90 minutes x 1 dose pre-op within 120
+      minutes prior to surgical.
+   
+   OR
+   Vancomycin 1.5 gram (for patients greater than 85 kg) IV over 90 minutes x 1 dose pre-op within 120 minutes prior
+   to surgical.
+
+2. VTE Prophylaxis: (Refer to VTE Prophylaxis Reference Guideline) □TED Stockings □ SCD
+
+3. Surgical Skin Preparation
+   ☑ Standard hip or knee hair removal by clippers
+   ☑ Ensure patient receives full body cleanse with SAGE 2% Chlorhexidine Gluconate cloth as directed AND Intranasal
+      Providone / Iodine, unless allergic.
+
+4. ☑ Consult Anesthesia for Regional Nerve Block.
+
+5. Tranexamic Acid:        ☑ TXA 1 gram IV x 1 dose
+
+Additional Orders: _________________________________________________________________
+
+__________ Verbal or telephone order read back and __________ Receiver's initials verification complete.
+
+Surgeon's Signature: _______________________________________ Date/Time: _______________
+
+RN Signature: _____________________________________________ Date/Time: _______________

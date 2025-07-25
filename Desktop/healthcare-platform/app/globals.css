@@ -1,0 +1,336 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Base typography for 40+ demographic */
+  html {
+    font-size: 16px; /* Base font size */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    font-size: 1.125rem; /* 18px base body text */
+    line-height: 1.75; /* Increased line height for readability */
+    letter-spacing: 0.01em; /* Slight letter spacing */
+  }
+  
+  /* Minimum font sizes for accessibility */
+  h1 { font-size: 2.5rem; line-height: 1.2; font-weight: 700; }
+  h2 { font-size: 2rem; line-height: 1.3; font-weight: 600; }
+  h3 { font-size: 1.75rem; line-height: 1.4; font-weight: 600; }
+  h4 { font-size: 1.5rem; line-height: 1.4; font-weight: 500; }
+  h5 { font-size: 1.25rem; line-height: 1.5; font-weight: 500; }
+  h6 { font-size: 1.125rem; line-height: 1.5; font-weight: 500; }
+  
+  p { 
+    font-size: 1.125rem; /* 18px minimum for body text */
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+  
+  /* Ensure minimum sizes for common elements */
+  button, input, select, textarea {
+    font-size: 1rem; /* 16px minimum for form elements */
+    min-height: 44px; /* WCAG touch target */
+  }
+  
+  label {
+    font-size: 1rem; /* 16px for labels */
+    font-weight: 500;
+  }
+  
+  small {
+    font-size: 0.875rem; /* 14px absolute minimum */
+  }
+  
+  :root {
+    /* TJV Recovery Brand Colors - EXACT SPECIFICATION */
+    --brand-navy: 202 100% 11%; /* #002238 - Primary */
+    --brand-blue: 202 89% 36%; /* #006DB1 - Secondary */
+    --brand-light-blue: 202 29% 86%; /* #C8DBE9 - Accent */
+    --brand-white: 0 0% 100%; /* #FFFFFF - Background */
+    
+    /* Healthcare-optimized color system */
+    --background: 0 0% 100%;
+    --foreground: 202 100% 11%; /* Brand navy for primary text */
+    --card: 0 0% 100%;
+    --card-foreground: 202 100% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 202 100% 11%;
+    --primary: 202 89% 36%; /* Brand blue */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 202 29% 86%; /* Brand light blue */
+    --secondary-foreground: 202 100% 11%; /* Brand navy */
+    --muted: 202 20% 98%; /* Very light blue for backgrounds */
+    --muted-foreground: 202 30% 45%; /* Darker for better contrast */
+    --accent: 202 29% 86%; /* Brand light blue */
+    --accent-foreground: 202 100% 11%; /* Brand navy */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 202 20% 88%; /* Light blue border */
+    --input: 202 20% 96%; /* Very light blue for inputs */
+    --ring: 202 89% 36%; /* Brand blue for focus rings */
+    --radius: 0.75rem; /* Larger radius for healthcare UI */
+    
+    /* Healthcare-specific colors */
+    --success: 142 76% 36%; /* Green for positive outcomes */
+    --warning: 38 92% 50%; /* Amber for caution */
+    --info: 202 89% 36%; /* Brand blue for information */
+    
+    /* Text contrast optimization for 40+ demographic */
+    --text-high-contrast: 202 100% 8%; /* Even darker navy */
+    --text-medium-contrast: 202 50% 25%;
+    --text-low-contrast: 202 30% 50%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+    @apply antialiased;
+  }
+  
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+    /* Healthcare typography optimization */
+    font-size: 18px; /* Base 18px for 40+ demographic */
+    line-height: 1.6; /* Improved readability */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* TYPOGRAPHY SYSTEM - Healthcare Optimized */
+  h1, h2, h3, h4, h5, h6 {
+    color: hsl(var(--text-high-contrast));
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+  }
+  
+  h1 { font-size: 2.5rem; font-weight: 700; } /* 40px */
+  h2 { font-size: 2rem; font-weight: 600; } /* 32px */
+  h3 { font-size: 1.625rem; font-weight: 600; } /* 26px */
+  h4 { font-size: 1.375rem; font-weight: 600; } /* 22px */
+  h5 { font-size: 1.25rem; font-weight: 600; } /* 20px */
+  h6 { font-size: 1.125rem; font-weight: 600; } /* 18px */
+  
+  /* Text size optimization for 40+ demographic */
+  .text-xs { font-size: 0.875rem; } /* 14px minimum */
+  .text-sm { font-size: 1rem; } /* 16px minimum */
+  .text-base { font-size: 1.125rem; } /* 18px preferred */
+  .text-lg { font-size: 1.25rem; } /* 20px */
+  .text-xl { font-size: 1.375rem; } /* 22px */
+  .text-2xl { font-size: 1.625rem; } /* 26px */
+  .text-3xl { font-size: 2rem; } /* 32px */
+  .text-4xl { font-size: 2.5rem; } /* 40px */
+  .text-5xl { font-size: 3rem; } /* 48px */
+  
+  /* Focus indicators for accessibility */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+}
+
+/* HEALTHCARE COMPONENT LIBRARY - Tailwind v4 Compatible */
+@layer components {
+  /* Remove all custom classes that cause compilation errors */
+}
+
+/* RESPONSIVE UTILITIES */
+
+/* Mobile First - Base styles for mobile */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .healthcare-card {
+    padding: 1rem;
+  }
+  
+  /* Larger touch targets on mobile */
+  button, [role="button"], .btn-primary, .btn-secondary {
+    min-height: 48px;
+    padding: 0.875rem 1.5rem;
+  }
+  
+  /* Ensure readable text on mobile */
+  body {
+    font-size: 16px; /* iOS zoom prevention */
+  }
+  
+  /* Stack navigation items vertically on mobile */
+  .nav-horizontal {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  /* Full width modals on mobile */
+  .modal-container {
+    margin: 1rem;
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+  }
+  
+  /* Hide secondary actions on mobile to reduce clutter */
+  .hide-on-mobile {
+    display: none;
+  }
+  
+  /* Make tables horizontally scrollable */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Adjust form layouts for mobile */
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .healthcare-card {
+    padding: 1.5rem;
+  }
+  
+  /* Show simplified navigation on tablet */
+  .nav-simplified {
+    display: flex;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1025px) {
+  .form-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  
+  .healthcare-card {
+    padding: 2rem;
+  }
+  
+  /* Full navigation on desktop */
+  .nav-full {
+    display: flex;
+  }
+}
+
+/* High DPI screens - better for 40+ age group */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .button, button {
+    border: 2px solid currentColor;
+  }
+  
+  .card, .healthcare-card {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Progress Bar Custom Styles */
+@layer components {
+  /* Progress component using brand colors */
+  [role="progressbar"] {
+    background-color: hsl(var(--brand-light-blue)) !important;
+  }
+  
+  [role="progressbar"] > div {
+    background-color: hsl(var(--brand-blue)) !important;
+  }
+  
+  /* Tab active state enhancement */
+  .tabs-trigger-active {
+    background-color: hsl(var(--brand-blue)) !important;
+    color: white !important;
+    font-weight: 500;
+  }
+  
+  /* Button hover states using brand colors */
+  .btn-brand {
+    border-color: hsl(var(--brand-blue));
+    color: hsl(var(--brand-blue));
+    transition: all 0.2s;
+  }
+  
+  .btn-brand:hover {
+    background-color: hsl(var(--brand-blue));
+    color: white;
+  }
+  
+  .btn-brand:disabled {
+    opacity: 0.5;
+  }
+  
+  .btn-brand:disabled:hover {
+    background-color: transparent;
+    color: hsl(var(--brand-blue));
+  }
+}
+
+/* PRINT STYLES */
+@media print {
+  .healthcare-card {
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    border: 1px solid #e5e7eb;
+    background: white !important;
+    color: black !important;
+  }
+}

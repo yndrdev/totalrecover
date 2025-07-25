@@ -1,0 +1,119 @@
+Product Requirements Document (PRD)
+Product Name (Placeholder): CapitalSure (or final chosen brand)
+
+Prepared For: Owners, Developers, GCs, Subcontractors, and Lenders
+
+Prepared By: Founding Team
+
+Version: 1.0
+
+Last Updated: June 9, 2025
+1. Executive Summary
+
+CapitalSure is a universal construction operating system designed to create accountability, schedule certainty, and capital protection for construction projects. The platform aligns all stakeholders—from owners and developers to GCs and subcontractors—through AI-powered scheduling, escrow-backed payment release, and immutable progress tracking. It is built for transparency, speed, and trust.
+2. Goals and Objectives
+Reduce schedule slippage and cost overruns
+Improve draw accuracy and speed
+Build trust between owners, GCs, and trades
+Enable proactive risk management
+Serve as a single source of truth for all project activity
+3. Core User Personas
+
+Owner / Developer / Lender
+Primary Buyer
+Seeks financial certainty and risk mitigation
+Needs high-level analytics, proof of progress, and compliance documentation
+
+General Contractor (GC) Project Manager
+Key Operator
+Manages day-to-day execution and subcontractors
+Needs a unified dashboard, quick access to COs/RFIs, and payment workflows
+
+Site Superintendent / Foreman
+Daily Field User
+Responsible for daily log uploads, photo validation, and crew coordination
+Needs one-hand, offline-friendly, fast UI
+
+Subcontractor Principal
+Marketplace User
+Books jobs and ensures prompt payment
+Needs scheduling visibility and fast escrow releases
+
+Lender / Surety
+Compliance Stakeholder
+Requires verified proof of work for funding draws
+Needs tamper-proof documentation and payment assurance
+4. Features and Modules
+
+A. Schedule Board
+Gantt-style project timeline
+Task dependencies and critical path
+AI-generated Schedule Health Score
+Subcontractor availability integration
+
+B. Daily Progress Log
+Geo-tagged photo uploads
+Weather auto-fill
+Voice-to-text notes
+Digital signoff and photo-verification
+
+C. Change Order & RFI Hub
+Structured submission workflow
+Schedule and cost impact inputs
+Owner/GC/Sub discussion threads
+Immutable audit trail
+
+D. Subcontractor Marketplace
+Searchable by trade, rating, availability
+Real-time job slot bidding
+Performance reputation system
+GC booking tools
+
+D2. Contractor Marketplace
+Searchable by trade, rating, availability
+Real-time job slot bidding
+Performance reputation system
+GC booking tools
+
+E. Contracts & Escrow Payments
+DocuSign-style e-signing
+Smart escrow wallet per milestone
+Auto-lien waiver collection
+Payment release triggers on task verification
+
+F. Analytics Dashboard
+Cost Performance Index (CPI), Schedule Performance Index (SPI)
+Variance alerts
+Draw cycle tracking
+Custom views for each persona
+5. Technical Architecture Overview
+Frontend: React / React Native / PWA
+Backend: Node.js microservices w/ GraphQL
+Database: PostgreSQL + Graph DB (Neo4j)
+Media: AWS S3 or similar
+AI/ML: Schedule prediction, CV for image verification
+Security: SOC2, role-based permissions, hashed logs
+6. MVP Scope (Next 90 Days)
+Schedule Board
+Daily Log
+Change Order flow
+Escrow Milestone engine
+1 pilot project across Owner + GC + Sub
+7. Non-Goals (for MVP)
+Complex BIM file management
+Punch list module for homebuyers
+Full accounting suite
+8. Success Metrics
+Draw approval time reduced by 30%
+Daily log compliance >90%
+RFI latency <48 hours
+Pilot GC/Owner NPS >60
+9. Open Questions
+Will Owner or GC initiate the platform setup? Self Service SAAS
+Should lien waiver workflows be standardized or customizable? custom
+Should users be billed per project or per portfolio? per project
+10. Appendix
+Brand Concepts: CapitalSure, TrustLedger, IRRShield, etc.
+User Job-to-Be-Done Matrix
+Naming CSV: attached
+Wireframes: linked

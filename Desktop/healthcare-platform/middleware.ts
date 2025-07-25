@@ -68,7 +68,9 @@ export async function middleware(request: NextRequest) {
     '/auth/patient-access',
     '/login',
     '/register',
-    '/signup'
+    '/signup',
+    '/preop',
+    '/postop'
   ]
 
   // API routes that should be accessible

@@ -70,7 +70,9 @@ export async function middleware(request: NextRequest) {
     '/register',
     '/signup',
     '/preop',
-    '/postop'
+    '/postop',
+    '/demo/preop-demo',
+    '/demo/postop-demo'
   ]
 
   // API routes that should be accessible
@@ -87,7 +89,9 @@ export async function middleware(request: NextRequest) {
   // Routes that should always bypass authentication (demo pages)
   const alwaysBypassRoutes = [
     '/preop',
-    '/postop'
+    '/postop',
+    '/demo/preop-demo',
+    '/demo/postop-demo'
   ]
 
   // Admin migration routes (special case)

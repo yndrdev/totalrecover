@@ -111,24 +111,84 @@ export function createMockSupabaseClient() {
     
     from: (table: string) => {
       return {
-        select: (columns?: string) => ({
-          eq: (column: string, value: any) => ({
+        select: (columns?: string) => {
+          const selectResult = {
+            // Direct execution for list queries
+            then: async (resolve: Function, reject: Function) => {
+              try {
+                const data = await selectResult.execute()
+                resolve(data)
+              } catch (error) {
+                reject(error)
+              }
+            },
+            execute: async () => {
+              // Return list data based on table
+              switch (table) {
+                case 'patients':
+                  return { 
+                    data: [mockUsers.patient.patient], 
+                    error: null 
+                  }
+                case 'providers':
+                  return { 
+                    data: [
+                      mockUsers.surgeon.provider,
+                      mockUsers.nurse.provider,
+                      mockUsers.physical_therapist.provider
+                    ], 
+                    error: null 
+                  }
+                case 'protocols':
+                  return {
+                    data: [{
+                      id: 'mock-protocol-001',
+                      name: 'Total Knee Replacement Protocol',
+                      description: 'Standard TKR recovery protocol',
+                      is_active: true,
+                      tenant_id: 'demo-tenant-001',
+                      created_at: '2024-01-01T00:00:00.000Z'
+                    }],
+                    error: null
+                  }
+                case 'profiles':
+                  return {
+                    data: [
+                      mockUsers.patient.profile,
+                      mockUsers.surgeon.profile,
+                      mockUsers.nurse.profile
+                    ],
+                    error: null
+                  }
+                default:
+                  return { data: [], error: null }
+              }
+            },
+            eq: (column: string, value: any) => ({
             single: async () => {
               const session = getMockSession()
-              if (!session) return { data: null, error: { message: 'No session' } }
-              
-              const mockData = getMockUserData(session.userType)
+              const mockData = session ? getMockUserData(session.userType) : null
               
               // Return appropriate data based on table
               switch (table) {
                 case 'profiles':
-                  return { data: mockData.profile, error: null }
+                  return { data: mockData?.profile || mockUsers.patient.profile, error: null }
                 case 'users':
-                  return { data: mockData.userRecord, error: null }
+                  return { data: mockData?.userRecord || mockUsers.patient.user, error: null }
                 case 'patients':
-                  return { data: mockData.patientRecord, error: null }
+                  // Return mock patient data even without session
+                  return { 
+                    data: mockData?.patientRecord || {
+                      ...mockUsers.patient.patient,
+                      id: value || 'mock-patient-001'
+                    }, 
+                    error: null 
+                  }
                 case 'providers':
-                  return { data: mockData.providerRecord, error: null }
+                  return { 
+                    data: mockData?.providerRecord || mockUsers.surgeon.provider, 
+                    error: null 
+                  }
                 case 'tenants':
                   return { 
                     data: { 
@@ -137,6 +197,17 @@ export function createMockSupabaseClient() {
                       settings: {}
                     }, 
                     error: null 
+                  }
+                case 'protocols':
+                  return {
+                    data: {
+                      id: 'mock-protocol-001',
+                      name: 'Total Knee Replacement Protocol',
+                      description: 'Standard TKR recovery protocol',
+                      is_active: true,
+                      created_at: '2024-01-01T00:00:00.000Z'
+                    },
+                    error: null
                   }
                 default:
                   return { data: null, error: null }

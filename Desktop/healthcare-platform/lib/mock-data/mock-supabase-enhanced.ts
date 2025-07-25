@@ -6,10 +6,13 @@ export function createEnhancedMockSupabaseClient() {
     auth: {
       getUser: async () => {
         const session = getMockSession()
+        // Always return a mock user in demo mode
+        const defaultUser = mockUsers.patient.auth
         if (session) {
           return { data: { user: session.user }, error: null }
         }
-        return { data: { user: null }, error: null }
+        // Return default patient user when no session
+        return { data: { user: defaultUser }, error: null }
       },
       
       getSession: async () => {
@@ -172,6 +175,7 @@ export function createEnhancedMockSupabaseClient() {
                 
                 switch (table) {
                   case 'profiles':
+                    // Always return a profile, default to patient if no session
                     return { data: mockData?.profile || mockUsers.patient.profile, error: null }
                   case 'users':
                     return { data: mockData?.userRecord || mockUsers.patient.user, error: null }
@@ -195,13 +199,29 @@ export function createEnhancedMockSupabaseClient() {
                         name: 'Total Knee Replacement Protocol',
                         description: 'Standard TKR recovery protocol',
                         is_active: true,
+                        tenant_id: 'demo-tenant-001',
                         created_at: '2024-01-01T00:00:00.000Z'
                       },
                       error: null
                     }
+                  case 'tenants':
+                    return {
+                      data: {
+                        id: value || 'demo-tenant-001',
+                        name: 'Demo Healthcare Practice',
+                        settings: {}
+                      },
+                      error: null
+                    }
                   default:
-                    return { data: null, error: null }
+                    // Return empty object instead of null for unknown tables
+                    return { data: {}, error: null }
                 }
+              },
+              // Support chained methods
+              then: async (resolve: Function) => {
+                const result = await queryBuilder.eq(column, value).single()
+                resolve(result)
               }
             }),
             

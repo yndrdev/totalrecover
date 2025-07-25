@@ -10,26 +10,11 @@ export async function middleware(request: NextRequest) {
   console.log('[Middleware] Processing:', pathname)
 
   // Check if bypass auth is enabled for demo
-  const bypassAuth = process.env.BYPASS_AUTH === 'true'
+  const bypassAuth = process.env.BYPASS_AUTH === 'true' || process.env.NEXT_PUBLIC_BYPASS_AUTH === 'true'
   
-  // If bypass auth is enabled, allow all routes except /auth/callback
-  if (bypassAuth && !pathname.startsWith('/auth/callback')) {
-    console.log('[Middleware] Bypass auth enabled - allowing unrestricted access')
-    return supabaseResponse
-  }
-
-  // Allow all main application routes without auth when bypass is enabled
-  const unprotectedRoutes = [
-    '/patient',
-    '/provider', 
-    '/practice',
-    '/preop',
-    '/postop',
-    '/dashboard'
-  ]
-  
-  if (bypassAuth && unprotectedRoutes.some(route => pathname.startsWith(route))) {
-    console.log('[Middleware] Allowing access to:', pathname)
+  // If bypass auth is enabled, allow ALL routes (no authentication required)
+  if (bypassAuth) {
+    console.log('[Middleware] DEMO MODE - No authentication required for:', pathname)
     return supabaseResponse
   }
 

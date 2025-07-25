@@ -1,8 +1,10 @@
-{
-  "rootDirectory": "Desktop/healthcare-platform",
-  "framework": "nextjs",
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "installCommand": "npm install",
-  "devCommand": "npm run dev"
-}
+  {
+    "functions": {
+      "app/api/chat/ai-response/route.ts": {
+        "maxDuration": 30
+      },
+      "app/api/chat/ai-response-stream/route.ts": {
+        "maxDuration": 30
+      }
+    }
+  }

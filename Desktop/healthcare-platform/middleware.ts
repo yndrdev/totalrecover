@@ -12,35 +12,35 @@ export async function middleware(request: NextRequest) {
   // Check if bypass auth is enabled for demo
   const bypassAuth = process.env.BYPASS_AUTH === 'true' || process.env.NEXT_PUBLIC_BYPASS_AUTH === 'true'
   
-  // If bypass auth is enabled, allow ALL routes (no authentication required)
-  if (bypassAuth) {
+  // Also check for demo/mock environment indicators
+  const isDemoMode = bypassAuth ||
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('mock') ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.includes('mock') ||
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  
+  // If demo mode is detected, allow ALL routes (no authentication required)
+  if (isDemoMode) {
     console.log('[Middleware] DEMO MODE - No authentication required for:', pathname)
     return supabaseResponse
   }
 
-  // Check for required environment variables
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    console.error('Missing required Supabase environment variables');
-    // Return early without authentication check
-    return supabaseResponse;
-  }
-
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
+        setAll(cookiesToSet: any) {
+          cookiesToSet.forEach(({ name, value }: any) =>
             request.cookies.set(name, value)
           )
           supabaseResponse = NextResponse.next({
             request,
           })
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value, options }: any) =>
             supabaseResponse.cookies.set(name, value, options)
           )
         },

@@ -1,0 +1,118 @@
+[
+  {
+    "fields": {
+      "project": {
+        "key": "PROJECT"
+      },
+      "issuetype": {
+        "name": "Epic"
+      },
+      "summary": "2D-to-3D Knee Imaging & Planning",
+      "description": "Epic for the new 2D/3D workflow.",
+
+      /*
+       * Custom field for Epic Name:
+       *   - common on Jira Cloud is "customfield_10011"
+       *   - might be different on your instance
+       */
+      "customfield_10011": "2D-3D"
+    }
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "PROJECT"
+      },
+      "issuetype": {
+        "name": "Story"
+      },
+      "summary": "Zoomed-In 2D AP Femur X-Ray View",
+      "description": "As a surgeon, I want to see the 2D AP x-ray of the femur zoomed in...\n\n**Acceptance Criteria**:\n1. Display the AP x-ray focusing on the distal femur joint line.\n2. Zoom level shows minimal femur shaft.\n3. Allow user to pan or further zoom if needed.\n",
+
+      /*
+       * Link this Story to the Epic by referencing the Epic's Key
+       * (Note: The Epic must exist first).
+       * On Jira Cloud, this field is often "customfield_10014".
+       */
+      "customfield_10014": "PROJECT-123"
+    }
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "PROJECT"
+      },
+      "issuetype": {
+        "name": "Story"
+      },
+      "summary": "AI-Generated Borderline Overlay",
+      "description": "As a user, I want the system to automatically superimpose a colored borderline...\n\n**Acceptance Criteria**:\n1. Overlay in a distinct color.\n2. Scaled/positioned accurately.\n3. Updates with panning/zooming.\n",
+      "customfield_10014": "PROJECT-123"
+    }
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "PROJECT"
+      },
+      "issuetype": {
+        "name": "Story"
+      },
+      "summary": "Manual Adjustment of Borderline",
+      "description": "As a user, I want to paint or move the borderline manually...\n\n**Acceptance Criteria**:\n1. 'Paint' mode to add or correct line segments.\n2. 'Drag/Move' functionality.\n3. Real-time updates.\n",
+      "customfield_10014": "PROJECT-123"
+    }
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "PROJECT"
+      },
+      "issuetype": {
+        "name": "Story"
+      },
+      "summary": "Confirm Borderline Accuracy",
+      "description": "As a user, I want to confirm the finalized borderline by clicking 'Confirm'...\n\n**Acceptance Criteria**:\n1. 'Confirm' button to lock in edits.\n2. Prevent further changes unless re-opened.\n3. Navigate to next step.\n",
+      "customfield_10014": "PROJECT-123"
+    }
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "PROJECT"
+      },
+      "issuetype": {
+        "name": "Story"
+      },
+      "summary": "Repeat Workflow for All Views",
+      "description": "As a user, I want the detection/edit/confirm process for lateral femur, AP tibia, and lateral tibia...\n\n**Acceptance Criteria**:\n1. Same steps repeated for each of the 4 views.\n2. 4 confirmations total.\n3. Ability to revisit previous views.\n",
+      "customfield_10014": "PROJECT-123"
+    }
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "PROJECT"
+      },
+      "issuetype": {
+        "name": "Story"
+      },
+      "summary": "3D Mesh with X-Rays Behind",
+      "description": "As a user, I want to see a 3D mesh reconstruction with the 2D x-rays for alignment...\n\n**Acceptance Criteria**:\n1. Display 3D mesh side-by-side or behind the x-rays.\n2. Mesh edges align with confirmed borderlines.\n3. 'Create' button to move to next screen.\n",
+      "customfield_10014": "PROJECT-123"
+    }
+  },
+  {
+    "fields": {
+      "project": {
+        "key": "PROJECT"
+      },
+      "issuetype": {
+        "name": "Story"
+      },
+      "summary": "Final 3D Image Manipulation",
+      "description": "As a user, I want to view the final 3D model that can be rotated, zoomed, and manipulated...\n\n**Acceptance Criteria**:\n1. Interactive 3D viewer (rotate, zoom, pan).\n2. Reflects user-confirmed lines for all views.\n3. 'Finish' or 'Save Plan' to complete the process.\n",
+      "customfield_10014": "PROJECT-123"
+    }
+  }
+]

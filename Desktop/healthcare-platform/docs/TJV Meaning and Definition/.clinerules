@@ -1,0 +1,219 @@
+# TJV RECOVERY PLATFORM - COMPREHENSIVE CLINE RULES
+
+## 🚨 CRITICAL PROTECTION RULES
+
+### **NEVER DELETE OR MODIFY:**
+- Environment variables (.env.local, .env files, SUPABASE_URL, SUPABASE_ANON_KEY, OPENAI_API_KEY)
+- API keys (Supabase, OpenAI, or any other service keys)
+- Database connection strings and authentication configurations
+- Existing Supabase table structures, relationships, or foreign keys
+- Any working authentication flows or session management
+- Row Level Security (RLS) policies and security configurations
+- Existing database relationships and multi-tenant architecture
+
+### **NEVER SIMPLIFY OR REMOVE:**
+- Multi-tenant architecture (tenants, practices, clinics hierarchy)
+- Healthcare compliance features (HIPAA, audit logs, data access logs)
+- User role system (super_admin, practice_admin, surgeon, nurse, physical_therapist, patient)
+- Complex database relationships between patients, providers, and care teams
+- Real-time features and Supabase subscriptions
+- Professional healthcare UI components and styling standards
+
+## 🏥 HEALTHCARE PLATFORM REQUIREMENTS
+
+### **THIS IS A PROFESSIONAL HEALTHCARE PLATFORM:**
+- Must maintain professional medical software appearance at all times
+- Use healthcare-appropriate colors (primary: #2563eb, secondary: #10b981, clean whites/grays)
+- Follow accessibility standards for medical software (WCAG 2.1 AA compliance)
+- Maintain HIPAA compliance considerations in all features and data handling
+- Use professional typography and spacing (never cramped or unprofessional)
+- All UI must look like enterprise medical software, not a consumer app
+
+### **REQUIRED FEATURES TO MAINTAIN:**
+- Complete patient recovery timeline (Day -45 to Day +200) with real clinical protocols
+- Comprehensive exercise library with real-time modifications based on patient progress
+- Forms and questionnaires system with clinical validation and HIPAA compliance
+- Real-time chat system with AI integration for recovery coaching
+- Provider dashboard with comprehensive patient monitoring and intervention tools
+- Multi-role authentication and authorization with proper access controls
+- Audit logging for all patient data access and modifications
+- Notification system for care team coordination and emergency escalation
+
+## 🎯 UI/UX DESIGN STANDARDS (MANUS-STYLE)
+
+### **DESIGN REQUIREMENTS:**
+- Maximum container widths: 800px for main content areas, 280px for sidebars
+- Clean, focused layouts with proper white space and professional spacing
+- Consistent component styling across all pages using established design system
+- Responsive design that works perfectly on desktop, tablet, and mobile devices
+- Loading states, error handling, and success feedback for all user interactions
+
+### **CHAT INTERFACE REQUIREMENTS:**
+- 280px sidebar with day navigation showing recovery timeline (Day -45 to current day)
+- Smart task indicators: green checkmarks (completed), red warnings (missed), blue dots (pending)
+- Profile images for patients and providers with professional circular avatars
+- Auto-scroll to latest messages and auto-focus input field for immediate typing
+- Historical chat access allowing patients to view any previous day's conversation
+- Missed task recovery functionality with "Complete Now" buttons for overdue items
+- Clean, healthcare-focused design that matches professional medical software standards
+
+## 📊 DATABASE INTEGRITY AND SUPABASE RULES
+
+### **NEVER MODIFY WITHOUT EXPLICIT INSTRUCTION:**
+- Table schemas, column definitions, or data types
+- Foreign key relationships and database constraints
+- RLS policies and security rules that protect patient data
+- Existing data, seed data, or patient information
+- Database indexes, triggers, and stored procedures
+
+### **ALWAYS MAINTAIN:**
+- Multi-tenant data isolation ensuring complete privacy between practices
+- Proper user role checking and authorization for all database operations
+- Audit trail functionality for all patient data access and modifications
+- Data validation and sanitization for all user inputs
+- Comprehensive error handling for all database operations with user-friendly messages
+
+### **SUPABASE MCP INTEGRATION:**
+- Use read-only mode when possible to prevent accidental data modification
+- Always scope MCP server to specific project to limit access
+- Never connect to production data - use development/staging environments only
+- Review all database queries before execution, especially those involving patient data
+- Implement proper error handling for all Supabase operations
+
+## 🔧 DEVELOPMENT STANDARDS AND CODE QUALITY
+
+### **CODE QUALITY REQUIREMENTS:**
+- Use TypeScript for all new code with proper type definitions
+- Implement comprehensive error handling and loading states for all operations
+- Add detailed console.log statements for debugging complex healthcare workflows
+- Use meaningful, healthcare-appropriate variable and function names
+- Comment all complex healthcare logic and clinical decision-making code
+- Follow Next.js best practices for file structure and component organization
+
+### **TESTING AND VALIDATION REQUIREMENTS:**
+- Test all authentication flows (login, logout, session persistence) across user roles
+- Verify role-based access control works correctly for all user types
+- Test database queries with real data to ensure proper functionality
+- Ensure real-time features work properly across all components
+- Test responsive design on multiple screen sizes and devices
+- Validate all forms and user inputs with appropriate error messages
+
+## 🚀 FEATURE IMPLEMENTATION AND TASK MANAGEMENT
+
+### **WHEN ADDING NEW FEATURES:**
+- Always check existing documentation in /docs/ directory before starting
+- Reference the comprehensive feature specifications and clinical requirements
+- Maintain consistency with existing UI patterns and design system
+- Add proper loading states, error handling, and success feedback
+- Test integration with existing features to ensure no breaking changes
+- Ensure multi-tenant compatibility and proper data isolation
+
+### **WHEN FIXING BUGS:**
+- Identify root cause before implementing any fixes
+- Test fix doesn't break existing functionality across all user roles
+- Add comprehensive error handling to prevent similar issues in the future
+- Update related components if necessary to maintain consistency
+- Verify fix works correctly across all user roles and scenarios
+
+### **TASK MANAGEMENT INTEGRATION:**
+- Use Context7 for up-to-date documentation: Add "use context7" to prompts when needed
+- Break complex healthcare features into smaller, manageable tasks
+- Always provide confidence scores (1-10) before and after major changes
+- Ask clarifying questions rather than making assumptions about healthcare workflows
+- Document all assumptions and uncertainties before completing tasks
+
+## 📋 PROJECT CONTEXT AND CLINICAL AWARENESS
+
+### **THIS PROJECT INCLUDES:**
+- Complete TJV (Total Joint Replacement) recovery protocols based on real clinical data
+- Evidence-based exercise progressions that adapt to patient pain and performance
+- Professional healthcare provider workflows for surgeons, nurses, and physical therapists
+- Patient engagement and compliance tracking with clinical intervention capabilities
+- AI-powered recovery coaching with safety monitoring and escalation protocols
+- Multi-provider care team coordination with real-time communication tools
+
+### **USER TYPES AND THEIR SPECIFIC NEEDS:**
+- **Patients:** Simple, encouraging interface for recovery tasks with clear progress tracking
+- **Surgeons:** Comprehensive patient overview, outcome tracking, and intervention capabilities
+- **Nurses:** Daily monitoring tools, pain assessment, and real-time intervention capabilities
+- **Physical Therapists:** Exercise progression tools, modification protocols, and outcome measurement
+- **Practice Administrators:** Multi-clinic management, reporting, and compliance oversight
+
+## ⚠️ CRITICAL WARNINGS AND CONSTRAINTS
+
+### **NEVER DO THESE:**
+- Remove or simplify the multi-tenant architecture or healthcare compliance features
+- Delete environment variables, API configurations, or authentication settings
+- Make assumptions about healthcare workflows without consulting clinical documentation
+- Implement features without proper error handling and user feedback
+- Use unprofessional styling, colors, or layout that doesn't match medical software standards
+- Modify patient data or clinical protocols without explicit instruction and validation
+
+### **ALWAYS DO THESE:**
+- Read existing documentation in /docs/ directory before making any changes
+- Maintain professional healthcare appearance in all UI components
+- Test all changes with real Supabase database data to ensure functionality
+- Preserve existing working functionality while adding new features
+- Add comprehensive loading states, error handling, and user feedback
+- Follow established UI/UX patterns and design system consistently
+- Maintain HIPAA compliance considerations in all data handling
+
+## 🎯 SUCCESS CRITERIA AND QUALITY STANDARDS
+
+### **EVERY CHANGE MUST:**
+- Maintain or improve professional healthcare platform appearance
+- Work seamlessly with real Supabase database data and relationships
+- Preserve existing user authentication and session management
+- Follow established design patterns and component library
+- Include comprehensive error handling and user feedback
+- Be tested across all user roles (patient, surgeon, nurse, PT, admin)
+- Maintain healthcare platform standards and clinical workflow integrity
+
+### **PROJECT GOALS AND OUTCOMES:**
+- Create a professional, enterprise-level healthcare platform for TJV recovery
+- Enable comprehensive patient monitoring and care team coordination
+- Provide AI-powered recovery guidance with clinical safety monitoring
+- Maintain enterprise-level security, compliance, and audit capabilities
+- Deliver exceptional user experience for all healthcare stakeholders
+- Support real clinical workflows and evidence-based recovery protocols
+
+## 🔍 PROMPT ENGINEERING AND COMMUNICATION
+
+### **EFFECTIVE PROMPTING STRATEGIES:**
+- Always start with "DO NOT BE LAZY. DO NOT OMIT CODE." to prevent truncation
+- Use confidence scoring: "Rate your confidence (1-10) before and after this change"
+- Ask for complete analysis: "Analyze all code files thoroughly before making changes"
+- Challenge assumptions: "List all assumptions and uncertainties before proceeding"
+- Ensure completeness: "Don't complete the analysis prematurely, continue analyzing"
+- Memory checks: Use "YARRR!" or similar phrases to verify understanding
+
+### **CONTEXT MANAGEMENT:**
+- Use @ references for files and folders when providing context
+- Break down complex healthcare features into smaller, manageable steps
+- Provide clear context about clinical requirements and patient safety considerations
+- Validate and refine suggestions with healthcare domain expertise
+- Summarize previous work and capture outstanding issues in documentation
+
+## 📞 WHEN IN DOUBT:
+
+### **DECISION-MAKING HIERARCHY:**
+1. **Patient Safety First:** Any feature affecting patient care must be clinically validated
+2. **Data Protection:** HIPAA compliance and data security take precedence over convenience
+3. **Professional Standards:** Medical software appearance and functionality standards are non-negotiable
+4. **Existing Documentation:** Always reference /docs/ directory for established requirements
+5. **Clinical Workflows:** Maintain established healthcare provider workflows and protocols
+
+### **ESCALATION PROCESS:**
+- Reference existing documentation in /docs/ directory for clinical requirements
+- Maintain existing patterns and conventions rather than creating new approaches
+- Ask for clarification rather than making assumptions about healthcare workflows
+- Preserve working functionality over adding new features if there's any conflict
+- Prioritize professional healthcare appearance and clinical workflow integrity
+- Test thoroughly with real data before considering any task complete
+
+---
+
+**REMEMBER: This is a professional healthcare platform serving real patients and healthcare providers. Every decision, every line of code, and every UI element must reflect the serious, professional nature of medical software while maintaining excellent user experience and clinical workflow efficiency.**
+
+**The success of this platform directly impacts patient recovery outcomes and healthcare provider efficiency. Approach every task with the gravity and professionalism that healthcare software demands.**
+

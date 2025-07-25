@@ -1,0 +1,30 @@
+TOTAL JOINT SPECIALISTS
+SURGERY PREP LIST
+
+Patient Name: _____________________________________
+DOB/MRN: _________________________________________
+Room Number: _____________________________________
+
+Labs                          Needs                    Done
+CBC                           [  ]                     [  ]
+CMP                           [  ]                     [  ]
+Vitamin D                     [  ]                     [  ]
+A1C                          [  ]                     [  ]
+EKG                          [  ]                     [  ]
+CRP                          [  ]                     [  ]
+ESR                          [  ]                     [  ]
+Other ________________       [  ]                     [  ]
+
+Clearances                    Needs
+Cardiac                       [  ]
+Dental                        [  ]
+Hem/Oncology                  [  ]
+Nephrology                    [  ]
+Pulmonology                   [  ]
+Vascular                      [  ]
+Neuro                        [  ]
+Other ________________       [  ]
+
+X-Ray                        [  ]
+Outpatient PT /RX            [  ]
+Covid Test/ Appt             [  ]

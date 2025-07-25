@@ -1,0 +1,389 @@
+{
+  "name": "LinkedIn Medical CTO/CIO AI Software Outreach",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger-001",
+      "name": "Hourly Search Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "search_queries",
+              "value": "CTO medical AI software development|CIO healthcare internal tools|Chief Technology Officer medical AI|Chief Information Officer healthcare software|medical CTO building AI|healthcare CIO internal development"
+            },
+            {
+              "name": "target_titles", 
+              "value": "CTO|Chief Technology Officer|CIO|Chief Information Officer|VP Engineering|Head of Technology|Director of Technology"
+            },
+            {
+              "name": "industry_keywords",
+              "value": "medical|healthcare|hospital|clinic|pharma|biotech|health tech|medical device|telemedicine"
+            },
+            {
+              "name": "content_keywords",
+              "value": "internal software|AI development|machine learning|custom development|building tools|software engineering|tech stack|automation"
+            }
+          ]
+        }
+      },
+      "id": "set-search-params",
+      "name": "Set Search Parameters",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://www.linkedin.com/search/results/content/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keywords",
+              "value": "={{ $json.search_queries.split('|')[0] }}"
+            },
+            {
+              "name": "origin",
+              "value": "SWITCH_SEARCH_VERTICAL"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+            },
+            {
+              "name": "Accept",
+              "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "linkedin-search",
+      "name": "LinkedIn Content Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LinkedIn search results and filter for medical CTOs/CIOs\nconst posts = [];\n\n// Get search parameters from previous node\nlet searchParams = {};\nif (items.length > 0 && items[0].json) {\n  searchParams = items[0].json;\n}\n\n// Default values if parameters are missing\nconst targetTitles = searchParams.target_titles || \"CTO|Chief Technology Officer|CIO|Chief Information Officer\";\nconst industryKeywords = searchParams.industry_keywords || \"medical|healthcare|hospital\";\nconst contentKeywords = searchParams.content_keywords || \"internal software|AI development|machine learning\";\n\n// Regex patterns for filtering\nconst titlePattern = new RegExp(targetTitles.split('|').join('|'), 'i');\nconst industryPattern = new RegExp(industryKeywords.split('|').join('|'), 'i');\nconst contentPattern = new RegExp(contentKeywords.split('|').join('|'), 'i');\n\n// Mock data structure for demonstration (replace with actual LinkedIn parsing)\nconst mockPosts = [\n  {\n    author: \"Dr. Sarah Chen\",\n    title: \"CTO at MedTech Solutions\",\n    content: \"We're building internal AI tools to streamline our medical device testing process...\",\n    profileUrl: \"https://linkedin.com/in/sarah-chen-cto\",\n    postUrl: \"https://linkedin.com/posts/sarah-chen-activity\",\n    industry: \"Medical Devices\",\n    timestamp: new Date().toISOString()\n  },\n  {\n    author: \"Michael Rodriguez\",\n    title: \"Chief Information Officer at Regional Health Network\",\n    content: \"Excited about our new machine learning platform for patient data analysis...\",\n    profileUrl: \"https://linkedin.com/in/michael-rodriguez-cio\",\n    postUrl: \"https://linkedin.com/posts/michael-rodriguez-activity\",\n    industry: \"Healthcare\",\n    timestamp: new Date().toISOString()\n  }\n];\n\n// Filter posts based on criteria\nfor (const post of mockPosts) {\n  const matchesTitle = titlePattern.test(post.title);\n  const matchesIndustry = industryPattern.test(post.industry) || industryPattern.test(post.content);\n  const matchesContent = contentPattern.test(post.content);\n  \n  if (matchesTitle && matchesIndustry && matchesContent) {\n    posts.push({\n      ...post,\n      score: 100, // Scoring system for prioritization\n      reason: `Matches: ${matchesTitle ? 'Title' : ''} ${matchesIndustry ? 'Industry' : ''} ${matchesContent ? 'Content' : ''}`\n    });\n  }\n}\n\nreturn posts.map(post => ({ json: post }));"
+      },
+      "id": "parse-filter-posts",
+      "name": "Parse & Filter Posts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-001",
+              "leftValue": "={{ $json.score }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "filter-high-score",
+      "name": "Filter High Score Prospects",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "connection_message",
+              "value": "Hi {{ $json.author }}, I noticed your recent post about {{ $json.content.substring(0, 50) }}... I'd love to connect and discuss how we're helping medical organizations streamline their internal software development with AI-powered solutions."
+            },
+            {
+              "name": "prospect_data",
+              "value": "{{ JSON.stringify($json) }}"
+            }
+          ]
+        }
+      },
+      "id": "prepare-outreach",
+      "name": "Prepare Outreach Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1340,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.profileUrl }}/overlay/contact-info/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+            },
+            {
+              "name": "Cookie",
+              "value": "YOUR_LINKEDIN_SESSION_COOKIE_HERE"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "send-connection-request",
+      "name": "Send Connection Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1560,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Prospects",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.author }}",
+            "Title": "={{ $json.title }}",
+            "Industry": "={{ $json.industry }}",
+            "Post Content": "={{ $json.content }}",
+            "Profile URL": "={{ $json.profileUrl }}",
+            "Post URL": "={{ $json.postUrl }}",
+            "Score": "={{ $json.score }}",
+            "Status": "Connection Sent",
+            "Date Found": "={{ $json.timestamp }}",
+            "Outreach Message": "={{ $json.connection_message }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "save-to-airtable",
+      "name": "Save Prospect to CRM",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "subject": "New Medical CTO/CIO Prospect Found",
+        "message": "Found new prospect: {{ $json.author }}\nTitle: {{ $json.title }}\nIndustry: {{ $json.industry }}\nPost: {{ $json.content.substring(0, 200) }}...\n\nProfile: {{ $json.profileUrl }}\nScore: {{ $json.score }}\n\nConnection request sent with message:\n{{ $json.connection_message }}",
+        "options": {}
+      },
+      "id": "send-notification",
+      "name": "Send Notification Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        2000,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Hourly Search Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Search Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Search Parameters": {
+      "main": [
+        [
+          {
+            "node": "LinkedIn Content Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LinkedIn Content Search": {
+      "main": [
+        [
+          {
+            "node": "Parse & Filter Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse & Filter Posts": {
+      "main": [
+        [
+          {
+            "node": "Filter High Score Prospects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter High Score Prospects": {
+      "main": [
+        [
+          {
+            "node": "Prepare Outreach Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Outreach Message": {
+      "main": [
+        [
+          {
+            "node": "Send Connection Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Connection Request": {
+      "main": [
+        [
+          {
+            "node": "Save Prospect to CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Prospect to CRM": {
+      "main": [
+        [
+          {
+            "node": "Send Notification Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "id": "linkedin-medical-outreach-001",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "tag-linkedin",
+      "name": "linkedin-outreach"
+    },
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "tag-medical",
+      "name": "medical-prospects"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "task-master-cli",
+  "version": "1.0.0",
+  "description": "AI-driven development task management CLI",
+  "type": "module",
+  "main": "dev.js",
+  "bin": {
+    "task-master": "./dev.js"
+  },
+  "scripts": {
+    "start": "node dev.js",
+    "dev": "DEBUG=1 node dev.js"
+  },
+  "keywords": [
+    "task-management",
+    "cli",
+    "development",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.1.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

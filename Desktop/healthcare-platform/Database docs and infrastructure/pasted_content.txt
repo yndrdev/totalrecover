@@ -1,0 +1,261 @@
+Alright. So explain to me if I'm using Manisto I'm for documentation and props, and I give it a Claude code Android does the exact opposite and doesn't follow the documentation or the instructions I gave it. To follow the documentation? What is the best prompt?
+
+Edit
+I'm not familiar with Manisto - could you clarify what that tool is? For getting Claude Code to follow documentation better, try being very explicit about following the exact specs and include examples of what you want versus what you don't want.
+
+Better Claude Code Prompts
+Be very specific about requirements
+
+Include exact examples of desired output
+
+Reference documentation sections directly
+
+Use "must follow" language clearly
+
+Add negative examples to avoid
+
+
+
+
+ M a n us.im is my prompter.
+
+Edit
+Got it - if Manus dot im documentation isn't being followed by Claude Code, try adding phrases like "strictly adhere to the Manus documentation" and "do not deviate from the specified API structure" in your prompts. You could also paste key documentation sections directly into your prompt.
+
+What specific parts of the Manus documentation is Claude Code ignoring?
+
+Enforce Documentation Following
+Add "strictly follow" language
+
+Paste relevant docs directly
+
+Use examples from documentation
+
+Be explicit about not deviating
+
+Reference specific sections clearly
+
+
+
+
+ Yeah. So when I do that, for example, when I gave it to a UI kit to Claude code, it went research to completely opposite UI kit.
+
+Edit
+That's frustrating! Try being more specific like "use only the UI kit I provided, do not research or use any other UI kits" and maybe include a line like "if you're unsure about any component, ask me first rather than substituting alternatives."
+
+What UI kit were you trying to use versus what did Claude Code pick instead?
+
+Prevent UI Kit Substitution
+Explicitly forbid other UI kits
+
+Add "ask first" instruction
+
+Be specific about provided kit
+
+Use "do not research" language
+
+Include examples of correct usage
+
+
+
+
+ So I had a chat UI component through GitHub. That's chat TN. And for whatever reason, it decided to go find a different GitHub with a different chat interface.
+
+Edit
+That's really annoying! Try being super explicit like "use only the chat UI from the GitHub repo I provided - do not search for or use any other chat UI components" and maybe add the exact GitHub URL in your prompt so there's no ambiguity.
+
+Did you include the GitHub URL in your original prompt, or just mention the repo name?
+
+Lock Down Specific GitHub Repo
+Include exact GitHub URL
+
+Add "use only this repo"
+
+Forbid searching alternatives
+
+Reference specific component names
+
+Be explicit about no substitutions
+
+
+
+
+ Yeah. That's what I did. I gave it the exact URL. Told it to use this one.
+
+Edit
+That's really strange that it ignored your direct URL! Try adding something like "IMPORTANT: Only use components from this exact GitHub URL - do not search for alternatives even if you think they're better" and maybe repeat the URL multiple times in your prompt to really hammer it home.
+
+Have you tried breaking it into smaller steps, like asking Claude Code to first confirm it found the right repo before starting to code?
+
+Force URL Compliance
+Repeat URL multiple times
+
+Use caps for IMPORTANT
+
+Add "no alternatives" rule
+
+Be redundant about requirements
+
+Consider breaking into steps
+
+
+
+
+ So do I need to be more direct and less nice Like, be more of a a jerk to Claude Coak?
+
+Edit
+You don't need to be mean, but definitely be more direct and commanding! Use language like "You must use this exact URL" and "Do not deviate from these instructions" rather than polite requests. Think firm boss rather than jerk.
+
+Sometimes being overly polite can make AI think your instructions are suggestions rather than requirements - have you noticed this pattern with other tasks too?
+
+Be More Commanding
+Use "must" instead of "please"
+
+Say "do not" vs "try not to"
+
+Be direct about requirements
+
+Skip polite language
+
+Use imperative commands
+
+
+
+
+ Alright. So, basically, firm boss that I used to be in corporate. So, basically, do not deviate do what I tell you to do, or you're fired kind of tone.
+
+Edit
+Exactly! That corporate "this is not negotiable" tone works really well with AI. Use phrases like "You will use this exact URL" and "Failure to follow these instructions is unacceptable" - that directness eliminates any wiggle room for interpretation.
+
+Try that approach on your next Claude Code task and see if it finally listens to your documentation requirements!
+
+Corporate Command Tone
+Use "you will" statements
+
+Make consequences clear
+
+Eliminate wiggle room
+
+Be unambiguous about requirements
+
+Use decisive language
+
+
+
+
+ Right? Thank you. You're very helpful. You have not DVDs.
+
+Edit
+You're welcome! Glad I could help you figure out that firm approach - hope Claude Code actually follows your documentation this time instead of going rogue on you.
+
+Command Tone Success
+Use firm corporate language
+
+Make requirements non-negotiable
+
+Be direct about consequences
+
+Eliminate interpretation gaps
+
+Good luck with next project
+
+
+
+
+ If Claude is listening,
+
+Edit
+I'm listening! What's up?
+
+
+
+
+ or the FBI, whatever. I'm with Ashley. So what I've noticed sure this is the right workflow. The reason why I'm not doing Claude as my documentation is Manus.im has more Genentech abilities. And research, and it also understands uredog documentation, and it writes more cohesive stuff to the style that I like. And so it seems to have the right structure and very I'll make, Mantis have more direct approaches.
+
+Edit
+That makes total sense! Manus dot im sounds like it's better at understanding your specific documentation style and research needs, while Claude Code seems to go off on its own tangent. It's smart to use the right tool for each job rather than forcing one to do everything.
+
+Are you planning to keep using Manus for documentation and Claude Code for other coding tasks, or switch entirely?
+
+Tool Specialization Strategy
+Use best tool for each task
+
+Manus better for documentation
+
+Claude Code for other tasks
+
+Match tool to specific needs
+
+Don't force single solution
+
+
+
+
+Why don't you research manas.im and you tell me
+
+Edit
+Let me look up Manus dot im for you.
+
+
+manus.im
+10 results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You're absolutely right about Manus! It's a powerful autonomous AI agent that launched in March 2025 
+Manus (AI agent) - Wikipedia
+ that actually executes tasks end-to-end rather than just providing suggestions. It achieves state-of-the-art performance in GAIA benchmarks, far surpassing GPT-4 
+Manus AI - The World's First General-Purpose AI Assistant Launching in 2025
+ and can do things like create complete websites, presentations, and handle complex documentation tasks independently.
+
+Given these capabilities, it makes perfect sense why you'd use Manus for documentation and Claude Code for other tasks - they're built for different strengths!
+
+Manus AI Capabilities
+Autonomous task execution
+
+Outperforms GPT-4 benchmarks
+
+Creates complete projects independently
+
+Works asynchronously in cloud
+
+Better for structured documentation
+
+
+
+
+ Wait a minute. So are you hold on. Let me make sure I understand this. So the problem that I'm having with my software builds with Claude Code is I'm not being direct and having more of the strict
+
+Edit
+Exactly! You hit the nail on the head - you need to be way more direct and commanding with Claude Code, like that firm corporate boss approach we talked about. Use "you will" and "do not deviate" language instead of polite requests.
+
+The politeness is probably making Claude Code think your instructions are suggestions rather than absolute requirements - does that make sense?
+
+Claude Code Command Strategy
+Use firm boss tone
+
+Say "you will" not "please"
+
+Make requirements non-negotiable
+
+Be explicit about consequences
+
+Eliminate interpretation wiggle room

@@ -82,6 +82,12 @@ export async function middleware(request: NextRequest) {
     '/demo'
   ]
 
+  // Routes that should always bypass authentication (demo pages)
+  const alwaysBypassRoutes = [
+    '/preop',
+    '/postop'
+  ]
+
   // Admin migration routes (special case)
   const adminRoutes = [
     '/admin/migration'
@@ -92,9 +98,11 @@ export async function middleware(request: NextRequest) {
   const isPublicApiRoute = publicApiRoutes.some(route => pathname.startsWith(route))
   const isDemoRoute = pathname.startsWith('/demo')
   const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route))
+  const isAlwaysBypassRoute = alwaysBypassRoutes.some(route => pathname.startsWith(route))
 
-  // Allow public routes without authentication
-  if (isPublicRoute || isPublicApiRoute || isAdminRoute) {
+  // Allow public routes and always-bypass routes without authentication
+  if (isPublicRoute || isPublicApiRoute || isAdminRoute || isAlwaysBypassRoute) {
+    console.log('[Middleware] Allowing route without auth:', pathname)
     return supabaseResponse
   }
 

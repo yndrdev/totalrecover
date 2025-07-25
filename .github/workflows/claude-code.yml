@@ -97,3 +97,27 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE_NUMBER }}
+          RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+          NEXT_PUBLIC_BRAND_NAME: ${{ secrets.NEXT_PUBLIC_BRAND_NAME }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+          CSP_REPORT_URI: ${{ secrets.CSP_REPORT_URI }}
+          LICENSE_API_URL: ${{ secrets.LICENSE_API_URL }}
+          MAX_FILE_SIZE_MB: ${{ secrets.MAX_FILE_SIZE_MB }}
+          ALLOWED_FILE_TYPES: ${{ secrets.ALLOWED_FILE_TYPES }}
+          RATE_LIMIT_REQUESTS_PER_MINUTE: ${{ secrets.RATE_LIMIT_REQUESTS_PER_MINUTE }}
+          ENABLE_VOICE_INPUT: ${{ secrets.ENABLE_VOICE_INPUT }}
+          ENABLE_SMS_NOTIFICATIONS: ${{ secrets.ENABLE_SMS_NOTIFICATIONS }}
+          ENABLE_EMAIL_NOTIFICATIONS: ${{ secrets.ENABLE_EMAIL_NOTIFICATIONS }}
+          VERCEL_MCP_TOKEN: ${{ secrets.VERCEL_MCP_TOKEN }}
+          BYPASS_AUTH: ${{ secrets.BYPASS_AUTH }}
+          NEXT_PUBLIC_BYPASS_AUTH: ${{ secrets.NEXT_PUBLIC_BYPASS_AUTH }}
+          NEXT_PUBLIC_DEMO_MODE: ${{ secrets.NEXT_PUBLIC_DEMO_MODE }}

@@ -56,12 +56,20 @@ export default function DemoPage() {
                 </p>
               </div>
 
-              <Link href="/demo/patient-chat" className="block">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3">
-                  <User className="h-5 w-5 mr-2" />
-                  Experience Patient Chat
-                </Button>
-              </Link>
+              <div className="space-y-3">
+                <Link href="/patient" className="block">
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3">
+                    <User className="h-5 w-5 mr-2" />
+                    Patient Portal Dashboard
+                  </Button>
+                </Link>
+                <Link href="/demo/patient-chat" className="block">
+                  <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2">
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Patient Recovery Chat
+                  </Button>
+                </Link>
+              </div>
             </CardContent>
           </Card>
 

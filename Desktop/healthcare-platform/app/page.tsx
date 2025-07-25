@@ -78,26 +78,90 @@ export default function LandingPage() {
             </p>
           </div>
           
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
+          {/* Main User Type Navigation */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">
+            {/* Pre-op Patient */}
+            <Link href="/preop">
+              <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border border-gray-100">
+                <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto" style={{ backgroundColor: '#C8DBE9' }}>
+                  <Heart className="h-8 w-8" style={{ color: '#002238' }} />
+                </div>
+                <h3 className="text-xl font-bold text-center mb-3" style={{ color: '#002238' }}>Pre-op Patient</h3>
+                <p className="text-gray-600 text-center text-sm">
+                  Prepare for your upcoming surgery with guided tasks and support
+                </p>
+                <div className="mt-4 text-center">
+                  <ChevronRight className="h-5 w-5 mx-auto" style={{ color: '#006DB1' }} />
+                </div>
+              </div>
+            </Link>
+
+            {/* Post-op Patient */}
+            <Link href="/postop">
+              <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border border-gray-100">
+                <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto" style={{ backgroundColor: '#C8DBE9' }}>
+                  <Activity className="h-8 w-8" style={{ color: '#002238' }} />
+                </div>
+                <h3 className="text-xl font-bold text-center mb-3" style={{ color: '#002238' }}>Post-op Patient</h3>
+                <p className="text-gray-600 text-center text-sm">
+                  Track your recovery progress and follow your personalized plan
+                </p>
+                <div className="mt-4 text-center">
+                  <ChevronRight className="h-5 w-5 mx-auto" style={{ color: '#006DB1' }} />
+                </div>
+              </div>
+            </Link>
+
+            {/* Provider */}
+            <Link href="/provider">
+              <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border border-gray-100">
+                <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto" style={{ backgroundColor: '#C8DBE9' }}>
+                  <Stethoscope className="h-8 w-8" style={{ color: '#002238' }} />
+                </div>
+                <h3 className="text-xl font-bold text-center mb-3" style={{ color: '#002238' }}>Provider</h3>
+                <p className="text-gray-600 text-center text-sm">
+                  Access your provider dashboard to manage patients and protocols
+                </p>
+                <div className="mt-4 text-center">
+                  <ChevronRight className="h-5 w-5 mx-auto" style={{ color: '#006DB1' }} />
+                </div>
+              </div>
+            </Link>
+
+            {/* Practice */}
+            <Link href="/practice">
+              <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border border-gray-100">
+                <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto" style={{ backgroundColor: '#C8DBE9' }}>
+                  <Users className="h-8 w-8" style={{ color: '#002238' }} />
+                </div>
+                <h3 className="text-xl font-bold text-center mb-3" style={{ color: '#002238' }}>Practice</h3>
+                <p className="text-gray-600 text-center text-sm">
+                  Manage your practice dashboard, staff, and administrative tasks
+                </p>
+                <div className="mt-4 text-center">
+                  <ChevronRight className="h-5 w-5 mx-auto" style={{ color: '#006DB1' }} />
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Secondary Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link href="/demo-navigation">
-              <Button size="lg" className="px-10 py-6 text-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105" 
-                      style={{ backgroundColor: '#006DB1', color: 'white' }}>
-                <Activity className="mr-3 h-6 w-6" />
-                Explore Demo Portal
+              <Button size="sm" variant="outline" className="px-6 py-3" style={{ borderColor: '#006DB1', color: '#006DB1' }}>
+                <Activity className="mr-2 h-4 w-4" />
+                Full Demo Portal
               </Button>
             </Link>
             <Link href="/auth/create-account">
-              <Button size="lg" variant="outline" className="px-10 py-6 text-lg border-2" 
-                      style={{ borderColor: '#002238', color: '#002238' }}>
-                <Heart className="mr-3 h-6 w-6" />
+              <Button size="sm" variant="outline" className="px-6 py-3" style={{ borderColor: '#002238', color: '#002238' }}>
+                <Heart className="mr-2 h-4 w-4" />
                 Create Account
               </Button>
             </Link>
             <Link href="/auth/login">
-              <Button size="lg" variant="outline" className="px-10 py-6 text-lg border-2" 
-                      style={{ borderColor: '#002238', color: '#002238' }}>
-                <LogIn className="mr-3 h-6 w-6" />
+              <Button size="sm" variant="outline" className="px-6 py-3" style={{ borderColor: '#002238', color: '#002238' }}>
+                <LogIn className="mr-2 h-4 w-4" />
                 Sign In
               </Button>
             </Link>

@@ -6,7 +6,7 @@ import { DemoHealthcareLayout } from '@/components/layout/demo-healthcare-layout
 import { Card, CardContent, CardHeader } from '@/components/ui/design-system/Card'
 import { Button } from '@/components/ui/design-system/Button'
 import { Input } from '@/components/ui/design-system/Input'
-import { StatusBadge, RecoveryDayBadge } from '@/components/ui/design-system/StatusIndicator'
+import { PatientRosterTable } from '@/components/patients/PatientRosterTable'
 import { demoPatients, demoProviders } from '@/lib/data/demo-healthcare-data'
 import { useDemoAuth } from '@/components/auth/demo-auth-provider'
 import {
@@ -14,12 +14,7 @@ import {
   Filter,
   UserPlus,
   Calendar,
-  Activity,
-  Phone,
-  Mail,
-  MoreVertical,
-  ChevronRight,
-  User
+  Activity
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -28,6 +23,8 @@ export default function DemoPatientsPage() {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState<'all' | 'pre-op' | 'post-op' | 'discharged'>('all')
+  const [patientPainLevels, setPatientPainLevels] = useState<{ [key: string]: number }>({})
+  const [patientCareTeams, setPatientCareTeams] = useState<{ [key: string]: any }>({})
 
   // Get patients relevant to the current user's role
   const myPatients = demoUser?.role === 'practice_admin' 
@@ -46,11 +43,25 @@ export default function DemoPatientsPage() {
       const diffTime = today.getTime() - surgeryDate.getTime()
       const recoveryDay = Math.floor(diffTime / (1000 * 60 * 60 * 24))
       
+      // Generate random pain level if not set
+      if (!patientPainLevels[patient.id]) {
+        const painLevel = Math.floor(Math.random() * 10) + 1
+        setPatientPainLevels(prev => ({ ...prev, [patient.id]: painLevel }))
+      }
+      
       return {
         ...patient,
         recoveryDay,
         isPreOp: recoveryDay < 0,
-        surgeryDateFormatted: surgeryDate.toLocaleDateString()
+        surgeryDateFormatted: surgeryDate.toLocaleDateString(),
+        painLevel: patientPainLevels[patient.id] || 5,
+        physical_therapist_id: patientCareTeams[patient.id]?.physical_therapist_id || patient.physical_therapist_id,
+        lastMessage: Math.random() > 0.5 ? {
+          content: "I'm feeling much better today, thank you!",
+          timestamp: new Date().toISOString(),
+          type: 'text' as const,
+          unread: Math.random() > 0.7
+        } : undefined
       }
     })
   }
@@ -73,22 +84,44 @@ export default function DemoPatientsPage() {
     return matchesSearch && matchesFilter
   })
 
-  // Get provider name helper
-  const getProviderName = (providerId: string) => {
-    const provider = demoProviders.find(p => p.id === providerId)
-    return provider ? `Dr. ${provider.first_name} ${provider.last_name}` : 'Unassigned'
+  // Get care team members
+  const careTeamMembers = demoProviders.map(provider => ({
+    id: provider.id,
+    name: `Dr. ${provider.first_name} ${provider.last_name}`,
+    title: provider.role === 'provider' ? 'Surgeon' : 
+           provider.role === 'nurse' ? 'Nurse' : 
+           'Physical Therapist'
+  }))
+
+  // Handlers
+  const handlePatientClick = (patientId: string) => {
+    router.push(`/demo/provider/patients/${patientId}`)
   }
 
-  const getTaskStatus = (patient: any) => {
-    if (patient.isPreOp) {
-      return patient.pre_surgery_forms_completed ? 'completed' : 'pending'
-    } else {
-      const completionRate = patient.compliance_rate
-      if (completionRate >= 90) return 'completed'
-      if (completionRate >= 70) return 'in_progress'
-      if (completionRate >= 50) return 'pending'
-      return 'overdue'
-    }
+  const handleCareTeamChange = (patientId: string, role: string, providerId: string) => {
+    setPatientCareTeams(prev => ({
+      ...prev,
+      [patientId]: {
+        ...prev[patientId],
+        [`${role === 'pt' ? 'physical_therapist' : role}_id`]: providerId
+      }
+    }))
+  }
+
+  const handlePainLevelUpdate = (patientId: string, level: number) => {
+    setPatientPainLevels(prev => ({ ...prev, [patientId]: level }))
+  }
+
+  const handleMessageClick = (patientId: string) => {
+    router.push(`/demo/provider/chat?patient=${patientId}`)
+  }
+
+  const handlePhoneClick = (patientId: string) => {
+    console.log('Phone call to patient:', patientId)
+  }
+
+  const handleEmailClick = (patientId: string) => {
+    console.log('Email patient:', patientId)
   }
 
   return (
@@ -207,7 +240,7 @@ export default function DemoPatientsPage() {
             </Card>
           </div>
 
-          {/* Patients List */}
+          {/* Patients Table */}
           <Card>
             <CardHeader className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900">
@@ -222,92 +255,16 @@ export default function DemoPatientsPage() {
               </Button>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="divide-y divide-gray-200">
-                {filteredPatients.map(patient => (
-                  <div
-                    key={patient.id}
-                    className="p-4 hover:bg-gray-50 cursor-pointer transition-colors"
-                    onClick={() => router.push(`/demo/provider/patients/${patient.id}`)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        {/* Patient Avatar */}
-                        <div className="w-12 h-12 bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
-                          <User className="h-6 w-6" />
-                        </div>
-
-                        {/* Patient Info */}
-                        <div>
-                          <div className="flex items-center gap-3">
-                            <h3 className="font-semibold text-gray-900">
-                              {patient.first_name} {patient.last_name}
-                            </h3>
-                            <RecoveryDayBadge day={patient.recoveryDay} size="sm" />
-                            <StatusBadge status={getTaskStatus(patient)} size="sm" />
-                          </div>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
-                            <span>MRN: {patient.medical_record_number}</span>
-                            <span>•</span>
-                            <span>{patient.surgery_type} - {patient.surgery_side}</span>
-                            <span>•</span>
-                            <span>Surgery: {patient.surgeryDateFormatted}</span>
-                          </div>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
-                            <span>Surgeon: {getProviderName(patient.surgeon_id)}</span>
-                            {patient.primary_nurse_id && (
-                              <>
-                                <span>•</span>
-                                <span>Nurse: {getProviderName(patient.primary_nurse_id)}</span>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Quick Actions */}
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          icon={<Phone className="h-4 w-4" />}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            // Handle phone call
-                          }}
-                        />
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          icon={<Mail className="h-4 w-4" />}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            // Handle email
-                          }}
-                        />
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          icon={<ChevronRight className="h-4 w-4" />}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="mt-3">
-                      <div className="flex items-center justify-between text-sm mb-1">
-                        <span className="text-gray-600">Recovery Progress</span>
-                        <span className="text-gray-900 font-medium">{patient.compliance_rate}%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${patient.compliance_rate}%` }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <PatientRosterTable
+                patients={filteredPatients}
+                providers={careTeamMembers}
+                onPatientClick={handlePatientClick}
+                onCareTeamChange={handleCareTeamChange}
+                onPainLevelUpdate={handlePainLevelUpdate}
+                onMessageClick={handleMessageClick}
+                onPhoneClick={handlePhoneClick}
+                onEmailClick={handleEmailClick}
+              />
             </CardContent>
           </Card>
         </div>

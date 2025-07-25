@@ -76,6 +76,7 @@ export const mockUsers = {
       preferred_language: 'en',
       status: 'active',
       surgery_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
+      surgery_type: 'Total Knee Replacement',
       surgeon_id: 'mock-surgeon-001',
       protocol_id: 'mock-protocol-001',
       created_at: '2024-01-01T00:00:00.000Z',

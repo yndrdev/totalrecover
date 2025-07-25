@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import {
   Send,
@@ -21,13 +22,117 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-// Mock data matching the screenshot design
-const DEMO_DATA = {
+// Pre-op and Post-op data configurations
+const PREOP_DATA = {
+  patient: {
+    name: 'Sarah Johnson',
+    surgery_type: 'Total Knee Replacement',
+    surgery_date: '2025-01-25', // Future date
+    current_day: -3, // Days before surgery
+    phase: 'pre-op'
+  },
+  currentDayTasks: [
+    { id: 1, title: 'Complete pre-operative assessment', completed: true, type: 'form' },
+    { id: 2, title: 'Watch pre-surgery preparation video', completed: false, type: 'video' },
+    { id: 3, title: 'Review post-surgery care instructions', completed: false, type: 'video' },
+    { id: 4, title: 'Confirm surgery appointment', completed: false, type: 'form' }
+  ],
+  threadDays: [
+    {
+      day: -4,
+      date: 'Jan 21',
+      description: 'Initial consultation completed',
+      status: 'completed',
+      messages: [
+        {
+          id: 1,
+          type: 'message',
+          timestamp: '10:00am',
+          content: "Welcome to TJV Recovery Platform! Your surgery consultation is complete."
+        }
+      ]
+    },
+    {
+      day: -3,
+      date: 'Jan 22',
+      description: 'Medical clearance required',
+      status: 'missed',
+      messages: [
+        {
+          id: 1,
+          type: 'message',
+          timestamp: '2:00pm',
+          content: "Please complete your medical clearance form:",
+          form: {
+            title: 'Medical Clearance Form'
+          }
+        }
+      ]
+    },
+    {
+      day: -2,
+      date: 'Jan 23',
+      description: 'Pre-surgery preparation',
+      status: 'completed',
+      messages: [
+        {
+          id: 1,
+          type: 'message',
+          timestamp: '9:00am',
+          content: "Great! Here's your pre-surgery preparation checklist."
+        }
+      ]
+    }
+  ],
+  messages: [
+    {
+      id: 1,
+      type: 'message',
+      timestamp: '9:00am',
+      content: "Good morning! Your Total Knee Replacement surgery is scheduled for January 25th. Let's prepare you for success!"
+    },
+    {
+      id: 2,
+      type: 'video',
+      timestamp: '9:05am',
+      content: "This video will help you prepare for your upcoming surgery:",
+      video: {
+        title: 'Pre-Surgery Preparation Guide',
+        duration: '4:15'
+      },
+      taskId: 2
+    },
+    {
+      id: 3,
+      type: 'video',
+      timestamp: '9:10am',
+      content: "Please review what to expect after your surgery:",
+      video: {
+        title: 'Post-Surgery Recovery Overview',
+        duration: '6:30'
+      },
+      taskId: 3
+    },
+    {
+      id: 4,
+      type: 'message',
+      timestamp: '9:15am',
+      content: "Please confirm your surgery appointment and review the final details:",
+      form: {
+        title: 'Surgery Confirmation Form'
+      },
+      taskId: 4
+    }
+  ]
+}
+
+const POSTOP_DATA = {
   patient: {
     name: 'Sarah Johnson',
     surgery_type: 'Total Knee Replacement',
     surgery_date: '2025-01-17',
-    current_day: 4
+    current_day: 4,
+    phase: 'post-op'
   },
   currentDayTasks: [
     { id: 1, title: 'Morning exercises, Ice therapy', completed: true, type: 'exercise' },
@@ -166,6 +271,12 @@ const DEMO_DATA = {
 }
 
 export default function DemoPatientChatPage() {
+  const pathname = usePathname()
+  // Determine mode based on current path
+  const mode = pathname?.includes('preop') ? 'pre-op' : 'post-op'
+  // Select appropriate data based on mode
+  const DEMO_DATA = mode === 'pre-op' ? PREOP_DATA : POSTOP_DATA
+  
   const [inputValue, setInputValue] = useState('')
   const [selectedDay, setSelectedDay] = useState<typeof DEMO_DATA.threadDays[0] | null>(null)
   const [showProfileDropdown, setShowProfileDropdown] = useState(false)
@@ -199,38 +310,21 @@ export default function DemoPatientChatPage() {
   const displayMessages = selectedDay ? selectedDay.messages : DEMO_DATA.messages
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top Header for Demo Navigation */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3">
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-3">
-            <Link href="/practice/patients/demo-patient-123/">
-              <Button variant="outline" size="sm" className="text-green-700 border-green-200 bg-green-50 hover:bg-green-100">
-                <User className="h-4 w-4 mr-2" />
-                Provider View
-              </Button>
-            </Link>
-            <Link href="/">
-              <Button variant="outline" size="sm">
-                Home
-              </Button>
-            </Link>
-          </div>
-          <div>
-            <h1 className="text-lg font-bold text-gray-900">Patient Recovery Chat - Sarah Johnson</h1>
-            <p className="text-sm text-gray-600">Day 7 • Total Knee Replacement Recovery</p>
-          </div>
-        </div>
-      </div>
-      
-      <div className="flex">
-      {/* Left Sidebar - Exactly as shown in screenshot */}
-      <div className="w-[280px] bg-slate-800 flex flex-col">
+    <div className="h-screen bg-gray-50 flex">
+      {/* Left Sidebar - Static, no scroll */}
+      <div className="w-[280px] bg-slate-800 flex flex-col h-screen">
         {/* Recovery Timeline Header - No Icon */}
         <div className="p-4 border-b border-slate-700">
           <div>
-            <h2 className="text-white font-medium text-sm">Recovery Timeline</h2>
-            <p className="text-blue-300 text-xs">Day {DEMO_DATA.patient.current_day}</p>
+            <h2 className="text-white font-medium text-sm">
+              {DEMO_DATA.patient.phase === 'pre-op' ? 'Pre-Surgery Timeline' : 'Recovery Timeline'}
+            </h2>
+            <p className="text-blue-300 text-xs">
+              {DEMO_DATA.patient.phase === 'pre-op'
+                ? `${Math.abs(DEMO_DATA.patient.current_day)} days until surgery`
+                : `Day ${DEMO_DATA.patient.current_day}`
+              }
+            </p>
           </div>
         </div>
 
@@ -275,7 +369,12 @@ export default function DemoPatientChatPage() {
 
         {/* Current Day Task List Preview */}
         <div className="p-4 border-b border-slate-700">
-          <h3 className="text-blue-400 font-medium text-sm mb-3">Day {DEMO_DATA.patient.current_day}</h3>
+          <h3 className="text-blue-400 font-medium text-sm mb-3">
+            {DEMO_DATA.patient.phase === 'pre-op'
+              ? `${Math.abs(DEMO_DATA.patient.current_day)} days until surgery`
+              : `Day ${DEMO_DATA.patient.current_day}`
+            }
+          </h3>
           <div className="space-y-2">
             {currentDayTasks.map((task) => (
               <div key={task.id} className="flex items-start space-x-2 text-white">
@@ -308,7 +407,10 @@ export default function DemoPatientChatPage() {
                 }`}
               >
                 <div className="text-sm font-medium text-white mb-1">
-                  Day {dayItem.day} {dayItem.date}
+                  {DEMO_DATA.patient.phase === 'pre-op'
+                    ? `${Math.abs(dayItem.day)} days until surgery - ${dayItem.date}`
+                    : `Day ${dayItem.day} ${dayItem.date}`
+                  }
                 </div>
                 <div className="text-xs text-gray-400">
                   {dayItem.description}
@@ -319,8 +421,8 @@ export default function DemoPatientChatPage() {
         </div>
       </div>
 
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col relative">
+      {/* Main Chat Area - Scrollable */}
+      <div className="flex-1 flex flex-col relative h-screen">
         
         {/* Top Right Profile */}
         <div className="absolute top-4 right-4 z-30">
@@ -370,13 +472,16 @@ export default function DemoPatientChatPage() {
           </div>
         </div>
 
-        {/* Messages Area */}
+        {/* Messages Area - This is the scrollable part */}
         <div className="flex-1 overflow-y-auto pt-20 pb-20 px-4">
           <div className="max-w-2xl mx-auto space-y-6">
             {selectedDay && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
                 <div className="text-sm font-medium text-blue-900">
-                  Viewing Day {selectedDay?.day} - {selectedDay?.date}
+                  {DEMO_DATA.patient.phase === 'pre-op'
+                    ? `Viewing ${Math.abs(selectedDay?.day || 0)} days until surgery - ${selectedDay?.date}`
+                    : `Viewing Day ${selectedDay?.day} - ${selectedDay?.date}`
+                  }
                 </div>
                 <div className="text-xs text-blue-700">
                   {selectedDay?.description} ({selectedDay?.status})
@@ -495,8 +600,8 @@ export default function DemoPatientChatPage() {
           </div>
         </div>
 
-        {/* Fixed Bottom Input - Claude/ChatGPT Style */}
-        <div className="fixed bottom-0 right-0 left-[280px] bg-white border-t border-gray-200 p-4">
+        {/* Fixed Bottom Input - Only fixed relative to main chat area */}
+        <div className="absolute bottom-0 right-0 left-0 bg-white border-t border-gray-200 p-4">
           <div className="max-w-2xl mx-auto">
             <div className="flex items-center space-x-3">
               <div className="flex-1">
@@ -518,7 +623,6 @@ export default function DemoPatientChatPage() {
             </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   )

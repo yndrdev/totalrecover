@@ -44,21 +44,21 @@ export default function DemoNavigationPage() {
             Patient Portal
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <Link href="/patient/dashboard">
+            <Link href="/preop">
               <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Home className="mr-2 h-5 w-5" />
-                    Patient Dashboard
+                    Pre-Op Timeline
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">Main patient dashboard with recovery overview</p>
+                  <p className="text-gray-600">Pre-surgery timeline with AI assistant (matches screenshot)</p>
                 </CardContent>
               </Card>
             </Link>
 
-            <Link href="/patient/chat">
+            <Link href="/demo/patient-chat">
               <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                 <CardHeader>
                   <CardTitle className="flex items-center">

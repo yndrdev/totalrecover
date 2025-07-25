@@ -1,0 +1,135 @@
+import { z } from 'zod';
+import { createMcpHandler, withMcpAuth } from 'mcp-handler';
+
+// Token verification function
+async function verifyToken(authHeader: string): Promise<{
+  isValid: boolean;
+  clientId?: string;
+  scopes?: string[];
+}> {
+  // Extract bearer token
+  const token = authHeader.replace('Bearer ', '');
+  
+  // Verify against environment variable
+  const expectedToken = process.env.VERCEL_MCP_TOKEN;
+  
+  if (!expectedToken) {
+    console.error('VERCEL_MCP_TOKEN not configured');
+    return { isValid: false };
+  }
+  
+  if (token === expectedToken) {
+    return {
+      isValid: true,
+      clientId: 'healthcare-platform',
+      scopes: ['tools:execute', 'healthcare:access']
+    };
+  }
+  
+  return { isValid: false };
+}
+
+const baseHandler = createMcpHandler(
+  (server) => {
+    // Example tool: Roll dice
+    server.tool(
+      'roll_dice',
+      'Rolls an N-sided die',
+      { sides: z.number().int().min(2).describe('Number of sides on the die') },
+      async ({ sides }) => {
+        const value = 1 + Math.floor(Math.random() * sides);
+        return {
+          content: [{ type: 'text', text: `🎲 You rolled a ${value}!` }],
+        };
+      },
+    );
+
+    // Healthcare-specific tool: Patient status check
+    server.tool(
+      'check_patient_status',
+      'Checks the recovery status of a patient',
+      { 
+        patientId: z.string().describe('The patient ID to check'),
+        metricType: z.enum(['pain', 'mobility', 'activity']).optional().describe('Specific metric to check')
+      },
+      async ({ patientId, metricType }) => {
+        // This is a placeholder - in real implementation, you'd query your database
+        const statuses = {
+          pain: 'Pain level: 3/10 (improving)',
+          mobility: 'Range of motion: 85% (good progress)',
+          activity: 'Daily steps: 4,500 (meeting goal)'
+        };
+        
+        if (metricType) {
+          return {
+            content: [{ type: 'text', text: `Patient ${patientId} - ${statuses[metricType]}` }],
+          };
+        }
+        
+        return {
+          content: [{ 
+            type: 'text', 
+            text: `Patient ${patientId} Status:\n${Object.values(statuses).join('\n')}` 
+          }],
+        };
+      },
+    );
+
+    // Tool for generating recovery recommendations
+    server.tool(
+      'generate_recovery_recommendation',
+      'Generates personalized recovery recommendations based on patient progress',
+      {
+        patientId: z.string().describe('The patient ID'),
+        dayPostOp: z.number().int().min(0).describe('Days since operation'),
+        painLevel: z.number().int().min(0).max(10).describe('Current pain level (0-10)')
+      },
+      async ({ patientId, dayPostOp, painLevel }) => {
+        let recommendation = `Recovery recommendations for patient ${patientId} (Day ${dayPostOp} post-op):\n\n`;
+        
+        if (painLevel > 6) {
+          recommendation += '- Consider contacting your provider about pain management\n';
+          recommendation += '- Apply ice to the surgical area for 20 minutes, 3-4 times daily\n';
+        }
+        
+        if (dayPostOp < 7) {
+          recommendation += '- Focus on gentle ankle pumps and quadriceps sets\n';
+          recommendation += '- Maintain prescribed weight-bearing restrictions\n';
+        } else if (dayPostOp < 14) {
+          recommendation += '- Begin gentle range of motion exercises\n';
+          recommendation += '- Walk with assistance for 5-10 minutes, 3 times daily\n';
+        } else {
+          recommendation += '- Increase walking duration to 15-20 minutes\n';
+          recommendation += '- Start strengthening exercises as prescribed\n';
+        }
+        
+        return {
+          content: [{ type: 'text', text: recommendation }],
+        };
+      },
+    );
+  },
+  {},
+  { basePath: '/api' },
+);
+
+// Wrap handler with authentication
+const handler = withMcpAuth(
+  baseHandler,
+  verifyToken,
+  {
+    // OAuth metadata endpoint configuration
+    metadataPath: '/oauth/metadata',
+    issuer: 'https://healthcare-platform.vercel.app',
+    authorizationEndpoint: 'https://healthcare-platform.vercel.app/api/mcp/authorize',
+    tokenEndpoint: 'https://healthcare-platform.vercel.app/api/mcp/token',
+    jwksUri: 'https://healthcare-platform.vercel.app/api/mcp/jwks',
+    responseTypesSupported: ['token'],
+    tokenEndpointAuthMethodsSupported: ['none'],
+    grantTypesSupported: ['authorization_code'],
+    scopesSupported: ['tools:execute', 'healthcare:access'],
+    codeChallengeMethods: ['S256']
+  }
+);
+
+export { handler as GET, handler as POST, handler as DELETE };

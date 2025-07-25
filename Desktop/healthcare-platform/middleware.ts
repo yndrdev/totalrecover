@@ -18,9 +18,18 @@ export async function middleware(request: NextRequest) {
     return supabaseResponse
   }
 
-  // TEMPORARY: Allow all provider routes without auth check
-  if (pathname.startsWith('/provider')) {
-    console.log('[Middleware] Temporarily allowing provider routes')
+  // Allow all main application routes without auth when bypass is enabled
+  const unprotectedRoutes = [
+    '/patient',
+    '/provider', 
+    '/practice',
+    '/preop',
+    '/postop',
+    '/dashboard'
+  ]
+  
+  if (bypassAuth && unprotectedRoutes.some(route => pathname.startsWith(route))) {
+    console.log('[Middleware] Allowing access to:', pathname)
     return supabaseResponse
   }
 

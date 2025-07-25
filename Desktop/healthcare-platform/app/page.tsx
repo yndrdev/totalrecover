@@ -26,6 +26,12 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
+              <Link href="/demo-navigation">
+                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-gray-900">
+                  <Activity className="mr-2 h-4 w-4" />
+                  Demo Portal
+                </Button>
+              </Link>
               <Link href="/auth/login">
                 <Button variant="ghost" size="sm" className="text-gray-700 hover:text-gray-900">
                   <LogIn className="mr-2 h-4 w-4" />
@@ -65,11 +71,25 @@ export default function LandingPage() {
             </p>
           </div>
           
+          {/* Demo Mode Banner */}
+          <div className="mb-8 p-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg max-w-2xl mx-auto">
+            <p className="text-sm font-medium text-yellow-800 text-center">
+              🎯 Demo Mode Active - Explore all features without authentication
+            </p>
+          </div>
+          
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
-            <Link href="/auth/create-account">
+            <Link href="/demo-navigation">
               <Button size="lg" className="px-10 py-6 text-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105" 
                       style={{ backgroundColor: '#006DB1', color: 'white' }}>
+                <Activity className="mr-3 h-6 w-6" />
+                Explore Demo Portal
+              </Button>
+            </Link>
+            <Link href="/auth/create-account">
+              <Button size="lg" variant="outline" className="px-10 py-6 text-lg border-2" 
+                      style={{ borderColor: '#002238', color: '#002238' }}>
                 <Heart className="mr-3 h-6 w-6" />
                 Create Account
               </Button>

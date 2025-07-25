@@ -1,11 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { createMockSupabaseClient } from "../mock-data/mock-supabase-client";
+import { createEnhancedMockSupabaseClient } from "../mock-data/mock-supabase-enhanced";
 
 export async function createClient() {
   // Check if bypass auth is enabled
   if (process.env.BYPASS_AUTH === 'true' || process.env.NEXT_PUBLIC_BYPASS_AUTH === 'true') {
-    return createMockSupabaseClient() as any;
+    return createEnhancedMockSupabaseClient() as any;
   }
 
   const cookieStore = await cookies();

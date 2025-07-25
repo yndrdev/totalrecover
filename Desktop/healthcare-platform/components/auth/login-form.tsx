@@ -86,25 +86,25 @@ export function LoginForm({ onSuccess, redirectTo }: LoginFormProps) {
           if (!destination) {
             switch (userRole) {
               case "patient":
-                // For patients, use the patient record ID if available
-                const patientId = profile?.patients?.[0]?.id || userId;
-                destination = `/patient/patient-${patientId}`;
+                // For patients, go to dashboard
+                destination = `/patient/dashboard`;
                 break;
               case "surgeon":
               case "nurse":
               case "physical_therapist":
               case "provider":
-                destination = `/provider/provider-${userId}`;
+                destination = `/provider/patients`;
                 break;
               case "admin":
-                destination = `/practice/admin-${userId}`;
+              case "practice_admin":
+                destination = `/practice/protocols`;
                 break;
               case "super_admin":
-                destination = `/saasadmin/admin-${userId}`;
+                destination = `/saasadmin/protocols`;
                 break;
               default:
-                // Default to patient if role unknown
-                destination = `/patient/patient-${userId}`;
+                // Default to patient dashboard
+                destination = `/patient/dashboard`;
             }
           }
           
